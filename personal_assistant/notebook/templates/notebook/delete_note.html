@@ -1,0 +1,49 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'notebook/style.css' %}">
+
+{% if form.errors and form.non_field_errors %}
+<div class="alert alert-danger" role="alert">
+    {{form.non_field_errors}}
+</div>
+{% endif %}
+
+<div class="quote ms-5 col-md-7" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <h2 style="text-align: center;">Видалити нотатку</h2>
+</div>
+
+<div class="author-details" style="margin-left: 10%;">
+  <form method="post" action="{% url 'notebook:delete_note' notebook_id %}">
+    {% csrf_token %}
+    {{ form.confirm_delete }}
+    {{form.errors}}
+    <div class="quote" style="margin-right: 15%;" itemscope="" itemtype="http://schema.org/CreativeWork">
+        <span class="text" style="margin-left: auto; margin-right: 15%;" itemprop="text">
+            <h3>{{ note.title }}</h3>
+            <span class="text" itemprop="text">
+                <p>{{ note.description }}</p>
+                <p>Created at: {{ note.created_at }}</p>
+            </span>
+        </span>
+        <div class="d-flex justify-content-start mb-3">
+            <div class="quote ms-5 mt-3">
+                <span class="text" itemprop="text">
+                    <p><strong> Ви впевнені, що хочете видалити цю нотатку?</strong></p>
+                </span>
+            </div>
+            <div class="col-md-4" style="margin-left: 3%; margin-top: 3%;">
+                <p>
+                    <button type="submit" class="btn btn-danger me-4">Confirm</button>
+                    <a href="{{ request.META.HTTP_REFERER|default:'{% url "notebook:all_notes_paginate" %}' }}"
+                        class="btn btn-secondary">Don't do it</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
