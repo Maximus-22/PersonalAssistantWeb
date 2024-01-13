@@ -14,7 +14,6 @@ File Storage
     <table class="table table-bordered mt-3">
         <thead>
             <tr>
-                <th>Preview</th>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Actions</th>
@@ -23,13 +22,11 @@ File Storage
         <tbody>
             {% for file in files %}
             <tr>
-                <td>
-                    <!-- Тут буде мініатюра або іконка файла -->
-                </td>
                 <td>{{ file.title }}</td>
                 <td>{{ file.description }}</td>
                 <td>
                     <a href="{{ file.file.url }}" class="btn btn-success" download>Download</a>
+                    <a href="{% url 'file_storage:delete-file' file.id %}" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
             {% endfor %}
