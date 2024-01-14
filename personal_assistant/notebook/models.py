@@ -9,6 +9,9 @@ class Notebook(models.Model):
     tags = models.ManyToManyField('Tag', through='NotebookTag', related_name='notebooks')
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None)
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
         return f"{self.title}"
 

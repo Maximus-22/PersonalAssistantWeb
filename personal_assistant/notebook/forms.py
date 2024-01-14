@@ -9,6 +9,12 @@ class NotebookForm(forms.ModelForm):
     class Meta:
         model = Notebook
         fields = ['title', 'description', 'tags']
+    
+    def __init__(self, *args, **kwargs):
+        super(NotebookForm, self).__init__(*args, **kwargs)
+        self.fields['title'].label = 'Заголовок'
+        self.fields['description'].label = 'Опис, змiст'
+        self.fields['tags'].label = '#Тег, або #теги'
 
     def clean_tags(self):
         tags = self.cleaned_data['tags']
