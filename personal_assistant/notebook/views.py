@@ -30,6 +30,8 @@ def format_created_at(created_at):
         return f"Created at: {delta.days // 30} months ago"
 
 
+
+@login_required
 def notebook_list(request, page = 1):
     notebooks = Notebook.objects.all()
     search_form = SearchNoteForm(request.GET)
@@ -41,23 +43,26 @@ def notebook_list(request, page = 1):
                   context={"notebooks": notebooks_on_page, "search_form": search_form})
 
 
+@login_required
 def add_note(request):
     if request.method == 'POST':
         note_form = NotebookForm(request.POST)
-
-        if note_form.is_valid():
-            note = note_form.save(commit=False)
-            note.save()
-            tags = note_form.cleaned_data['tags']
-            tag_objects = [Tag.objects.get_or_create(name=tag.strip())[0] for tag in tags]
-            note.tags.set(tag_objects)
-            return redirect(to='notebook:all_notes')  
+        if request.user.is_authenticated:
+            if note_form.is_valid():
+                note = note_form.save(commit=False)
+                note.user = request.user
+                note.save()
+                tags = note_form.cleaned_data['tags']
+                tag_objects = [Tag.objects.get_or_create(name=tag.strip())[0] for tag in tags]
+                note.tags.set(tag_objects)
+                return redirect(to='notebook:all_notes')  
     else:
         note_form = NotebookForm()
     
     return render(request, 'notebook/add_note.html', {'note_form': note_form})
 
 
+@login_required
 def search_notes(request):
     if request.method == 'GET':
         search_form = SearchNoteForm(request.GET)
@@ -76,21 +81,26 @@ def search_notes(request):
             context = {'results': results_page, 'query': query}
             return render(request, 'notebook/search_notes.html', context)
         else:
-            messages.warning(request, 'The Query parameters are wrong')
+            # messages.warning(request, 'The Query search parameters are wrong.')
+            messages.warning(request, 'Параметри запиту пошуку незадовільні.')
 
 
+@login_required
 def delete_note(request, notebook_id):
     note = get_object_or_404(Notebook, id=notebook_id)
 
     if request.method == 'POST':
         form = DeleteNoteForm(request.POST)
-        # if request.user.is_authenticated and note.user == request.user:
-        if form['confirm_delete'].value() == "False":
-            note.delete()
-            messages.success(request, 'The Note deleted successfully.')
-            return redirect(to='notebook:all_notes')
-        else:
-            messages.warning(request, 'The Note deletion cancelled')
+        print(form)
+        if request.user.is_authenticated and note.user == request.user:
+            if form['confirm_delete'].value() == "False":
+                note.delete()
+                # messages.success(request, 'The Note deleted successfully.')
+                messages.success(request, 'Нотатку успішно видалено.')
+                return redirect(to='notebook:all_notes')
+            else:
+                # messages.warning(request, 'The Note deletion cancelled.')
+                messages.warning(request, 'Видалення нотатки скасовано.')
     else:
         form = DeleteNoteForm()
 

@@ -1,5 +1,5 @@
 {% extends 'personal_assistant/base.html' %}
-
+{% load humanize %}
 {% block title %}
 Notebook
 {% endblock %}
@@ -20,44 +20,52 @@ Notebook
 
 <div class="quote ms-5 col-md-7" itemscope="" itemtype="http://schema.org/CreativeWork">
     <p>
-        {% comment %}
         {% if user.is_authenticated %}
-        {% endcomment %}
-
-        <p class="search_area">
-            <a href="{% url 'notebook:add_note' %}" class="btn btn-primary ms-3">Add Note</a>
-            <form id="search-form" action="{% url 'notebook:search_notes' %}" method="GET">
-                <div class="row g-3 align-items-center ms-3">
-                    <div class="col-auto">
-                        <label for="search" class="col-form-label"><b>Search Notes</b></label>
+            <p class="search_area">
+                <div class="row">
+                <span>
+                <a href="{% url 'notebook:add_note' %}" class="btn btn-primary ms-3">Додати Нотатку</a>
+                <form id="search-form" action="{% url 'notebook:search_notes' %}" method="GET">
+                    <div class="row g-3 align-items-center ms-3">
+                        <div class="col-auto">
+                            <label for="search" class="col-form-label"><b>Пошук Нотаток</b></label>
+                        </div>
+                        <div class="col-auto">
+                            {{ search_form.query }}
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-info">Шукати</button>
+                        </div>
+                        <div class="col-auto">
+                            <span id="passwordHelpInline" class="form-text">
+                                {% comment %}
+                                <strong><i>Request must be at least 3 (three) characters.</i></strong>
+                                {% endcomment %}
+                                <strong><i>Запит має містити не менше 3 (трьох) символів.</i></strong>
+                            </span>
+                            <span>{{ search_form.errors.query }}</span>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        {{ search_form.query }}
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-info">Search</button>
-                    </div>
-                    <div class="col-auto">
-                        <span id="passwordHelpInline" class="form-text">
-                            <strong><i>Request must be at least 3 (three) characters.</i></strong>
-                        </span>
-                        <span>{{ search_form.errors.query }}</span>
-                    </div>
+                </form>
+                </span>
                 </div>
-            </form>
-            {% if form.query.value %}
-                <p>Search Query: {{ search_form.query.value }}</p>
+                {% if form.query.value %}
+                    <p>Search Query: {{ search_form.query.value }}</p>
+                {% endif %}
+            </p>
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <span {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</span>
+                {% endfor %}
+            </div>
             {% endif %}
-        </p>
-        
-        {% comment %}
-        {% endif %}
-        {% endcomment %}
 
+        {% endif %}
     </p>
 </div>
 <div class="container mt-3">
-    <h2>All Notes</h2>
+    <h2>Список Нотаток</h2>
 </div>
 <div class="row">
     <div class="col-md-8">
@@ -68,35 +76,20 @@ Notebook
         <h3>{{ notebook.title }}</h3>
         <span class="text" itemprop="text">
             <p>{{ notebook.description }}</p>
-            <p>Created at: {{ notebook.created_at }}</p>
+            <p><b>Час створення: </b>{{ notebook.created_at|naturaltime }}</p>
             <span class="mb-3" style="float: right;">
-
-                {% comment %}
-                {% if user.is_authenticated and quote.user == user %}
-                {% endcomment %}
-                <a href="{% url 'notebook:delete_note' notebook.id %}" class="btn btn-danger">Delete</a>
-                {% comment %}
+                {% if user.is_authenticated and notebook.user == user %}
+                    <a href="{% url 'notebook:delete_note' notebook.id %}" class="btn btn-danger">Видалити</a>
                 {% endif %}
-                {% endcomment %}
-
             </span>
         </span>
-
-        {% comment %}
-        <span>
-            by <small class="author" itemprop="author">{{ quote.author|author }}</small>
-            <a href="{% url 'quotes:author_detail' author_id=quote.author.id %}" target="_self">(about)</a>
-        </span>
-        {% endcomment %}
-        
         <div class="tags">
-            Tags:
+            Теги:
             <meta class="keywords" itemprop="keywords" content="{% for tag in notebook.tags.all %}{{ tag.name }},{% endfor %}">
             {% for tag in notebook.tags.all %}
                 <a class="tag" href="{% url 'notebook:tag_notes' tag_name=tag.name %}">{{ tag.name }}</a>
             {% endfor %}
         </div>
-
     </div>
     
     {% endfor %}
@@ -107,13 +100,13 @@ Notebook
             <li class="previous ms-5" style="float: left;">
                 <a class="{% if not notebooks.has_previous %} disabled {% endif %}"
                 href="{% if notebooks.has_previous %} {% url 'notebook:all_notes_paginate' notebooks.previous_page_number %} {% else %} # {% endif %}">
-                    <span class="btn btn-secondary" aria-hidden="true">←</span> Previous</a>
+                    <span class="btn btn-secondary" aria-hidden="true">←</span> Попередня</a>
             </li>
                     
             <li class="next" class="btn btn-secondary">
                 <a class="{% if not notebooks.has_next %} disabled {% endif %}"
                 href="{% if notebooks.has_next %} {% url 'notebook:all_notes_paginate' notebooks.next_page_number %} {% else %} # {% endif %}">
-                Next <span class="btn btn-secondary" aria-hidden="true">→</span></a>
+                Наступна <span class="btn btn-secondary" aria-hidden="true">→</span></a>
             </li>
 
         </ul>        

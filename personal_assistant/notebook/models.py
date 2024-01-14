@@ -7,6 +7,9 @@ class Notebook(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     tags = models.ManyToManyField('Tag', through='NotebookTag', related_name='notebooks')
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
         return f"{self.title}"
 
