@@ -15,18 +15,21 @@ def file_upload_view(request):
         print("Files received:", request.FILES)
         if form.is_valid():
             try:
+                description = form.cleaned_data.get('description')
                 if request.user.is_authenticated:
                     # Якщо користувач авторизований
                     file_instance = File(
                         file=request.FILES['file'],
                         title=request.FILES['file'].name,
+                        description=description,
                         user=request.user
                     )
                 else:
                     # Якщо користувач не авторизований
                     file_instance = File(
                         file=request.FILES['file'],
-                        title=request.FILES['file'].name
+                        title=request.FILES['file'].name,
+                        description=description,
                     )
 
                 file_instance.save()
