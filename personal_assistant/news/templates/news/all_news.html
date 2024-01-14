@@ -8,6 +8,25 @@ News
 <div class="container mt-3">
     <h2>News</h2>
 
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'news:ukraine_news' %}">Головна</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'news:ukraine_news' %}">Україна</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'news:ukraine_news' %}">Фінанси</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'news:culture_news' %}">Культура</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'news:sport_news' %}">Спорт</a>
+        </li>
+    </ul>
+    <iframe src="https://map.ukrainealarm.com/" width="800" height="600" frameborder="0"></iframe>
+
 </div>
 
 {% endblock %}

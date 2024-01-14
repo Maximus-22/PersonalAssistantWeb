@@ -1,0 +1,53 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>{{ title }}</h2>
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link{% if active_tab == 'main' %} active{% endif %}" aria-current="page" href="{% url 'news:main_news' %}">Головна</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if active_tab == 'ukraine' %} active{% endif %}" href="{% url 'news:ukraine_news' %}">Україна</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if active_tab == 'finance' %} active{% endif %}" href="{% url 'news:finance_news' %}">Фінанси</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if active_tab == 'culture' %} active{% endif %}" href="{% url 'news:culture_news' %}">Культура</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link{% if active_tab == 'sport' %} active{% endif %}" href="{% url 'news:sport_news' %}">Спорт</a>
+        </li>
+    </ul>
+
+    {% if scraped_data %}
+    <ul>
+        {% for news_item in scraped_data %}
+        <div class="card mb-3" style="max-width: 900px;">
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{{ news_item.link }}" target="_blank"><strong>{{ news_item.title }}</strong></a></h5>
+                        <p class="card-text"><small class="text-body-secondary"><em>{{ news_item.time }}</em></small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </ul>
+    {% else %}
+
+
+    <p>Дані ще не отримані. Зачекайте, будь ласка.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

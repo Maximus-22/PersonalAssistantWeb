@@ -1,0 +1,81 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block title %}
+Notebook
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'notebook/style.css' %}">
+{% csrf_token %}
+
+<div class="container mt-3">
+    <h2>Result Notes of Query: "{{ query }}"</h2>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        {% if results %}
+            {% for result in results %}
+
+                <div class="quote ms-5" itemscope="" itemtype="http://schema.org/CreativeWork">
+                    <h3>{{ result.title }}</h3>
+                    <span class="text" itemprop="text">
+                        <p>{{ result.description }}</p>
+                        <p>Created at: {{ result.created_at }}</p>
+                        <span class="mb-3" style="float: right;">
+
+                            {% comment %}
+                            {% if user.is_authenticated and quote.user == user %}
+                            {% endcomment %}
+                            <a href="{% url 'notebook:delete_note' result.id %}" class="btn btn-danger">Delete</a>
+                            {% comment %}
+                            {% endif %}
+                            {% endcomment %}
+
+                        </span>
+                    </span>
+                
+                    <div class="tags">
+                        Tags:
+                        <meta class="keywords" itemprop="keywords" content="{% for tag in notebook.tags.all %}{{ tag.name }},{% endfor %}">
+                        {% for tag in result.tags.all %}
+                            <a class="tag" href="{% url 'notebook:tag_notes' tag_name=tag.name %}">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            
+            {% endfor %}
+
+            <nav>
+                <div class="pagination" class="mb-3">
+                    <span class="step-links" style="margin-left: 5%;">
+                        {% if results.has_previous %}
+                            <!-- <a href="?page=1">&laquo; first</a> -->
+                            <!-- <a href="?page={{ results.previous_page_number }}">previous</a> -->
+                            <a class="btn btn-secondary" href="?page={{ results.previous_page_number }}">Previous</a>
+                        {% endif %}
+            
+                        <span class="current">
+                            <!-- Page {{ results.number }} of {{ results.paginator.num_pages }}. -->
+                            <strong>Page {{ results.number }} from {{ results.paginator.num_pages }}.</strong>
+                        </span>
+            
+                        {% if results.has_next %}
+                            <a class="btn btn-secondary" href="?page={{ results.next_page_number }}">Next</a>
+                            <!-- <a href="?page={{ results.next_page_number }}">next</a> -->
+                            <!-- <a href="?page={{ results.paginator.num_pages }}">last &raquo;</a> -->
+
+                        {% endif %}
+                    </span>
+                </div>
+            </nav>
+        {% else %}
+            <div class="container mt-3">
+                <h2>No results found for "{{ query }}"</h2>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
