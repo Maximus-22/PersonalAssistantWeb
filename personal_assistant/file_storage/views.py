@@ -58,6 +58,11 @@ def delete_file(request, file_id):
 
 @login_required
 def all_files(request):
-    files = File.objects.filter(user=request.user)
-    return render(request, "file_storage/all_files.html", {'files': files})
+    user_files = File.objects.filter(user=request.user)
+    search_query = request.GET.get('search', '')
+
+    if search_query:
+        user_files = user_files.filter(title__icontains=search_query)
+
+    return render(request, "file_storage/all_files.html", {'files': user_files})
 
