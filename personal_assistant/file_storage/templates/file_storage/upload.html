@@ -10,7 +10,7 @@ Upload File
     <form method="post" enctype="multipart/form-data" onsubmit="return checkFile(this)">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Upload</button>
+        <button type="submit">Завантажити файл</button>
     </form>
 </div>
 {% endblock %}
