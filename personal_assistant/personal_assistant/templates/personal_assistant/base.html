@@ -18,22 +18,36 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'main' %}">Personal Assistant</a>
     </li>
+
+    {% if request.user.is_authenticated %}
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'address_book:all_contacts' %}">Address Book</a>
+        <a class="nav-link" href="{% url 'address_book:all_contacts' %}">Адресна книга</a>
     </li>
 
-        <li class="nav-item">
-        <a class="nav-link" href="{% url 'notebook:all_notes' %}">Notebook</a>
-    </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{% url 'file_storage:all_files' %}">File Storage</a>
-    </li>
-        <li class="nav-item">
-        <a class="nav-link" href="{% url 'news:all_news' %}">News</a>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'notebook:all_notes' %}">Нотатки</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+        <a class="nav-link" href="{% url 'file_storage:all_files' %}">Сховище файлів</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'news:main_news' %}">Новини</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" style="color: black">{{ request.user }}</a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:register' %}">Реєстрація</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounts:login' %}">Вхід</a>
+    </li>
+    {% endif %}
+
 </ul>
 
 {% block content %}

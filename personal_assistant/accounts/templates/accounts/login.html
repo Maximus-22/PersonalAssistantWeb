@@ -1,12 +1,12 @@
 {% extends 'personal_assistant/base.html' %}
 
 {% block title %}
-Реєстрація
+Вхід
 {% endblock %}
 
 {% block content %}
 <div class="container mt-3">
-    <h2>Реєстрація</h2>
+    <h2>Вхід користувача</h2>
     {% if form.errors and form.non_field_errors %}
     <div class="alert alert-danger" role="alert">
         {{form.non_field_errors}}
@@ -23,22 +23,10 @@
             <span>{{form.errors.username}}</span>
         </div>
         <div class="mb-3">
-            <label class="form-label">Пошта
-                {{ form.email }}
-            </label>
-            <span>{{form.errors.email}}</span>
-        </div>
-        <div class="mb-3">
             <label class="form-label">Пароль
-                {{ form.password1 }}
+                {{ form.password }}
             </label>
-            <span>{{form.errors.password1}}</span>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Повторення пароля
-                {{ form.password2 }}
-            </label>
-            <span>{{form.errors.password2}}</span>
+            <span>{{form.errors.password}}</span>
         </div>
         <button type="submit" class="btn btn-primary">Відправити</button>
         <button type="reset" class="btn btn-secondary">Скинути</button>
