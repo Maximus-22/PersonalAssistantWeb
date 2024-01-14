@@ -1,3 +1,4 @@
+"""
 import boto3
 from botocore.exceptions import NoCredentialsError
 
@@ -13,3 +14,4 @@ def create_user_folder(user_id):
             s3.put_object(Bucket=bucket_name, Key=f"{user_id}/{folder}")
     except NoCredentialsError:
         print("Помилка: Немає доступу до AWS. Перевірте ваші облікові дані.")
+"""
