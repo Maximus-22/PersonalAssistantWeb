@@ -1,8 +1,8 @@
-"""
+
 import boto3
 from botocore.exceptions import NoCredentialsError
 
-
+"""
 def create_user_folder(user_id):
     s3 = boto3.client('s3')
     bucket_name = 'personal-assistant-for-django-project-bucket'
