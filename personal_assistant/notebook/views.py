@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.views import View
 from django.db.models import Q
 
@@ -38,7 +38,7 @@ def notebook_list(request, page = 1):
     elem_per_page = 5
     paginator = Paginator(list(notebooks), elem_per_page)
     notebooks_on_page = paginator.page(page)
-    print(search_form)
+    # print(search_form)
     return render(request, "notebook/notebook_list.html",
                   context={"notebooks": notebooks_on_page, "search_form": search_form})
 
@@ -86,12 +86,41 @@ def search_notes(request):
 
 
 @login_required
+def update_note(request, notebook_id):
+    note = get_object_or_404(Notebook, id=notebook_id)
+    if request.method == 'POST':
+        note_form = NotebookForm(request.POST, instance=note)
+        # print(form)
+        if request.user.is_authenticated and note.user == request.user:
+            if note_form.is_valid():
+                
+                updated_note = note_form.save(commit=False)
+                updated_note.user = request.user
+                updated_note.save()
+
+                tags_str = note_form.cleaned_data['tags']
+                # print(tags_str)
+                tag_objects = [Tag.objects.get_or_create(name=tag)[0] for tag in tags_str]
+                updated_note.tags.set(tag_objects)
+                
+                messages.success(request, 'Нотатку успішно оновлено.')
+                return redirect(to='notebook:all_notes')
+            else:
+                messages.warning(request, 'Оновлення нотатки скасовано.')
+        else:
+            messages.warning(request, 'У вас немає прав для оновлення цієї нотатки.')
+    else:
+        note_form = NotebookForm(instance=note)
+    return render(request, 'notebook/update_note.html', {'notebook_id': notebook_id, 'note': note, 'note_form': note_form})
+
+
+@login_required
 def delete_note(request, notebook_id):
     note = get_object_or_404(Notebook, id=notebook_id)
 
     if request.method == 'POST':
         form = DeleteNoteForm(request.POST)
-        print(form)
+        # print(form)
         if request.user.is_authenticated and note.user == request.user:
             if form['confirm_delete'].value() == "False":
                 note.delete()

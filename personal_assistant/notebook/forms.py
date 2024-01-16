@@ -4,7 +4,9 @@ from .models import Notebook, Tag
 
 
 class NotebookForm(forms.ModelForm):
-    tags = forms.CharField(max_length=84, help_text="Введіть теги через кому.")
+    title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'style': 'width: 30%;'}))
+    tags = forms.CharField(max_length=84, widget=forms.TextInput(attrs={'style': 'width: 30%;'}),
+                           help_text="Введіть теги через кому.")
 
     class Meta:
         model = Notebook
