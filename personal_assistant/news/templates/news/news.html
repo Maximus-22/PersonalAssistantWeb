@@ -10,7 +10,8 @@
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link{% if active_tab == 'main' %} active{% endif %}" aria-current="page" href="{% url 'news:main_news' %}">Головна</a>
+            <a class="nav-link{% if active_tab == 'main' %} active{% endif %}" aria-current="page"
+               href="{% url 'news:main_news' %}">Головна</a>
         </li>
         <li class="nav-item">
             <a class="nav-link{% if active_tab == 'ukraine' %} active{% endif %}" href="{% url 'news:ukraine_news' %}">Україна</a>
@@ -22,19 +23,33 @@
             <a class="nav-link{% if active_tab == 'culture' %} active{% endif %}" href="{% url 'news:culture_news' %}">Культура</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link{% if active_tab == 'sport' %} active{% endif %}" href="{% url 'news:sport_news' %}">Спорт</a>
+            <a class="nav-link{% if active_tab == 'sport' %} active{% endif %}"
+               href="{% url 'news:sport_news' %}">Спорт</a>
         </li>
     </ul>
 
     {% if scraped_data %}
     <ul>
         {% for news_item in scraped_data %}
-        <div class="card mb-3" style="max-width: 900px;">
+        <div class="card mb-3" style="max-width: 1000px;">
+
             <div class="row g-0">
+                {% if news_item.image %}
+                <div class="col-md-3">
+                    <img style="max-width: 250px;" src="{{ news_item.image }}" class="img-fluid rounded-start" alt="...">
+                </div>
+                {% endif %}
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title"><a href="{{ news_item.link }}" target="_blank"><strong>{{ news_item.title }}</strong></a></h5>
-                        <p class="card-text"><small class="text-body-secondary"><em>{{ news_item.time }}</em></small>
+                        <h5 class="card-title">
+                            <a href="{{ news_item.link }}" target="_blank">
+                                <strong>{{ news_item.title }}</strong>
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <small class="text-body-secondary">
+                                <em>{{ news_item.time }}</em>
+                            </small>
                         </p>
                     </div>
                 </div>
@@ -49,5 +64,4 @@
     {% endif %}
 
 </div>
-
 {% endblock %}

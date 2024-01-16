@@ -22,6 +22,7 @@ Address Book
                     <div class="col-auto">
                         {{ search_form.query }}
                     </div>
+
                     <div class="col-auto">
                         <button type="submit" class="btn btn-info">Search</button>
                     </div>
@@ -50,12 +51,12 @@ Address Book
     {% for contact in contacts %}
 
     <div class="quote ms-5" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <h3>{{ AddressBook.first_name }} {{ AddressBook.last_name }}</h3>
+        <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
         <span class="text" itemprop="text">
-            <p>Address: {{ AddressBook.address }}</p>
-            <p>Phone: {{ AddressBook.phone }}</p>
-            <p>Email: {{ AddressBook.email }}</p>
-            <p>Birthday: {{ AddressBook.birthday }}</p>
+            <p>Address: {{ contact.address }}</p>
+            <p>Phone: {{ contact.phone }}</p>
+            <p>Email: {{ contact.email }}</p>
+            <p>Birthday: {{ contact.birthday }}</p>
             <span class="mb-3" style="float: right;">
                 <a href="{% url 'address_book:contact_delete' contact.id %}" class="btn btn-danger">Delete</a>
             </span>

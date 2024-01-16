@@ -2,38 +2,35 @@
 
 {% block content %}
 
-{% load static %}
-<link rel="stylesheet" href="{% static 'notebook/style.css' %}">
-
 <div class="quote ms-5 col-md-7" itemscope="" itemtype="http://schema.org/CreativeWork">
-  <h2 style="text-align: center;">Додати Нотатку</h2>
+    <h2 style="text-align: center;">Додати Нотатку</h2>
 </div>
 
 <div class="author-details">
-  <form method="post" action="{% url 'notebook:add_note' %}">
-    {% csrf_token %}
-    <div class="mb-5">
-      <label class="form-label">{{ note_form.title.label_tag }}</label>
-      {{ note_form.title }}
-    </div>
-    <div class="mb-5">
-      <label class="form-label">{{ note_form.description.label_tag }}</label>
-      {{ note_form.description }}
-    </div>
-    <div class="mb-5">
-      <label class="form-label">{{ note_form.tags.label_tag }}</label>
-      {{ note_form.tags }}
-      <p>
-        <span class="help-text">{{ note_form.tags.help_text }}</span>
-      </p>
-    </div>
-    <div class="d-flex justify-content-start" class="mb-3">
-      <button type="submit" class="btn btn-primary me-2">Зберегти</button>
-      <input type="reset" class="btn btn-secondary me-2" value="Скинути">
-      <a href="{{ request.META.HTTP_REFERER|default:'{% url "notebook:all_notes_paginate" %}' }}"
-                        class="btn btn-warning">Повернутися</a>
-    </div>
-  </form>
+    <form method="post" action="{% url 'notebook:add_note' %}">
+        {% csrf_token %}
+        <div class="mb-5">
+            <label class="form-label">{{ note_form.title.label_tag }}</label>
+            {{ note_form.title }}
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ note_form.description.label_tag }}</label>
+            {{ note_form.description }}
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ note_form.tags.label_tag }}</label>
+            {{ note_form.tags }}
+            <p>
+                <span class="help-text">{{ note_form.tags.help_text }}</span>
+            </p>
+        </div>
+        <div class="d-flex justify-content-start" class="mb-3">
+            <button type="submit" class="btn btn-primary me-2">Зберегти</button>
+            <input type="reset" class="btn btn-secondary me-2" value="Скинути">
+            <a href="{{ request.META.HTTP_REFERER|default:'{% url " notebook:all_notes_paginate" %}' }}"
+            class="btn btn-warning">Повернутися</a>
+        </div>
+    </form>
 </div>
 
 {% endblock %}
