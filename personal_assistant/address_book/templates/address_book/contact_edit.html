@@ -1,0 +1,12 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block content %}
+  <h2>Edit Contact</h2>
+  <form method="post" class="form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save changes</button>
+  </form>
+  <br>
+  <a href="{% url 'contact_detail' pk=contact.pk %}">Cancel</a>
+{% endblock %}

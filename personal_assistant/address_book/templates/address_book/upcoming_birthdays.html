@@ -1,0 +1,17 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block content %}
+  <h2>Upcoming Birthdays</h2>
+  <p>Showing birthdays for the next {{ days }} days.</p>
+
+  {% if upcoming_birthdays %}
+    <ul>
+      {% for contact in upcoming_birthdays %}
+        <li>{{ contact.name }} - {{ contact.birthday|date:"F j" }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No upcoming birthdays in the next {{ days }} days.</p>
+  {% endif %}
+{% endblock %}
+
