@@ -1,0 +1,10 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block content %}
+  <h1>{{ contact.first_name }} {{ contact.last_name }}</h1>
+  <p>Address: {{ contact.address }}</p>
+  <p>Phone: {{ contact.phone }}</p>
+  <p>Email: {{ contact.email }}</p>
+  <p>Birthday: {{ contact.birthday }}</p>
+  <!-- Добавьте дополнительные поля при необходимости -->
+{% endblock %}

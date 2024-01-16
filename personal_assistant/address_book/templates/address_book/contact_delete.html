@@ -1,0 +1,56 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block content %}
+
+{% load static %}
+{% extends 'personal_assistant/base.html' %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'addressbook/style.css' %}">
+
+{% if form.errors and form.non_field_errors %}
+<div class="alert alert-danger" role="alert">
+    {{ form.non_field_errors }}
+</div>
+{% endif %}
+
+<div class="quote ms-5 col-md-7" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <h2 style="text-align: center;">Delete Contact</h2>
+</div>
+
+<div class="author-details" style="margin-left: 10%;">
+  <form method="post" action="{% url 'address_book:contact_delete' contact_id %}">
+    {% csrf_token %}
+    {{ form.confirm_delete }}
+    {{ form.errors }}
+    <div class="quote" style="margin-right: 15%;" itemscope="" itemtype="http://schema.org/CreativeWork">
+        <span class="text" style="margin-left: auto; margin-right: 15%;" itemprop="text">
+            <h3>{{ AddressBook.first_name }} {{ AddressBook.last_name }}</h3>
+            <span class="text" itemprop="text">
+                <p>Address: {{ AddressBook.address }}</p>
+                <p>Phone: {{ AddressBook.phone }}</p>
+                <p>Email: {{ AddressBook.email }}</p>
+                <p>Birthday: {{ AddressBook.birthday }}</p>
+            </span>
+        </span>
+        <div class="d-flex justify-content-start mb-3">
+            <div class="quote ms-5 mt-3">
+                <span class="text" itemprop="text">
+                    <p><strong> Are you sure you want to delete this contact?</strong></p>
+                </span>
+            </div>
+            <div class="col-md-4" style="margin-left: 3%; margin-top: 3%;">
+                <p>
+                    <button type="submit" class="btn btn-danger me-4">Confirm</button>
+                    <a href="{{ request.META.HTTP_REFERER|default:'{% url "address_book:all_contacts" %}' }}"
+                        class="btn btn-secondary">Don't do it</a>
+                </p>
+            </div>
+        </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}
