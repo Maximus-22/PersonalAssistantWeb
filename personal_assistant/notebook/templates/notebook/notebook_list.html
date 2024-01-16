@@ -49,9 +49,11 @@ Notebook
                 </form>
                 </span>
                 </div>
+                {% comment %}
                 {% if form.query.value %}
                     <p>Search Query: {{ search_form.query.value }}</p>
                 {% endif %}
+                {% endcomment %}
             </p>
             {% if messages %}
             <div class="messages">
@@ -79,6 +81,7 @@ Notebook
             <p><b>Час створення: </b>{{ notebook.created_at|naturaltime }}</p>
             <span class="mb-3" style="float: right;">
                 {% if user.is_authenticated and notebook.user == user %}
+                    <a href="{% url 'notebook:update_note' notebook.id %}" class="btn btn-secondary">Оновити</a>
                     <a href="{% url 'notebook:delete_note' notebook.id %}" class="btn btn-danger">Видалити</a>
                 {% endif %}
             </span>
