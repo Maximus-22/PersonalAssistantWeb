@@ -25,8 +25,21 @@ News
             <a class="nav-link" href="{% url 'news:sport_news' %}">Спорт</a>
         </li>
     </ul>
-    <iframe src="https://map.ukrainealarm.com/" width="800" height="600" frameborder="0"></iframe>
 
+    <table>
+        <tr>
+            <th>Валюта</th>
+            <th>Курс до гривні</th>
+            <th>Код</th>
+        </tr>
+        {% for currency in currencies %}
+        <tr>
+            <td>{{ currency.txt }}</td>
+            <td>{{ currency.rate }}</td>
+            <td>{{ currency.cc }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 
 {% endblock %}

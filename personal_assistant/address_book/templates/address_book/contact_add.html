@@ -10,42 +10,53 @@ Add Contact
 <link rel="stylesheet" href="{% static 'addressbook/style.css' %}">
 
 <div class="quote ms-5 col-md-7" itemscope="" itemtype="http://schema.org/CreativeWork">
-  <h2 style="text-align: center;">Add Contact</h2>
+    <h2 style="text-align: center;">Add Contact</h2>
 </div>
 
+{% if form.errors and form.non_field_errors %}
+<div class="alert alert-danger" role="alert">
+    {{form.non_field_errors}}
+</div>
+{% endif %}
 <div class="author-details">
-  <form method="post" action="{% url 'address_book:contact_add' %}">
-    {% csrf_token %}
-    <div class="mb-5">
-      <label class="form-label">{{ form.first_name.label_tag }}</label>
-      {{ form.first_name }}
-    </div>
-    <div class="mb-5">
-      <label class="form-label">{{ form.last_name.label_tag }}</label>
-      {{ form.last_name }}
-    </div>
-    <div class="mb-5">
-      <label class="form-label">{{ form.address.label_tag }}</label>
-      {{ form.address }}
-    </div>
-    <div class="mb-5">
-      <label class="form-label">{{ form.phone.label_tag }}</label>
-      {{ form.phone }}
-    </div>
-    <div class="mb-5">
-      <label class="form-label">{{ form.email.label_tag }}</label>
-      {{ form.email }}
-    </div>
-    <div class="mb-5">
-      <label class="form-label">{{ form.birthday.label_tag }}</label>
-      {{ form.birthday }}
-    </div>
-    <div class="d-flex justify-content-start mb-3">
-      <button type="submit" class="btn btn-primary me-2">Save</button>
-      <input type="reset" class="btn btn-secondary me-2" value="Reset">
-      <a href="{% url 'address_book:contact_list' %}" class="btn btn-warning">Back</a>
-    </div>
-  </form>
+    <form method="post" action="{% url 'address_book:contact_add' %}">
+
+        {% csrf_token %}
+        <div class="mb-5">
+            <label class="form-label">{{ form.first_name.label_tag }}</label>
+            {{ form.first_name }}
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ form.last_name.label_tag }}</label>
+            {{ form.last_name }}
+            <span>{{form.errors.last_name}}</span>
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ form.address.label_tag }}</label>
+            {{ form.address }}
+            <span>{{form.errors.address}}</span>
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ form.phone.label_tag }}</label>
+            {{ form.phone }}
+            <span>{{form.errors.phone}}</span>
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ form.email.label_tag }}</label>
+            {{ form.email }}
+            <span>{{form.errors.email}}</span>
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ form.birthday.label_tag }}</label>
+            {{ form.birthday }}
+            <span>{{form.errors.birthday}}</span>
+        </div>
+        <div class="d-flex justify-content-start mb-3">
+            <button type="submit" class="btn btn-primary me-2">Save</button>
+            <input type="reset" class="btn btn-secondary me-2" value="Reset">
+            <a href="{% url 'address_book:contact_list' %}" class="btn btn-warning">Back</a>
+        </div>
+    </form>
 </div>
 
 {% endblock %}

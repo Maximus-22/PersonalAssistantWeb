@@ -1,10 +1,21 @@
+import requests
+from django.http import HttpResponse
 from django.shortcuts import render
 
-from .tasks import scraping_ukraine, scraping_finance, scraping_culture, scraping_sport
+from .tasks import scraping_ukraine, scraping_finance, scraping_culture, scraping_sport, scraping_suspilne
 
 
-def all_news(request):
-    return render(request, "news/all_news.html")
+def main_news(request):
+    api_url = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json"
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        currencies = response.json()
+        currencies = [currency for currency in currencies if currency['cc'] in ['USD', 'EUR', 'PLN']]
+        return render(request, "news/main_news.html", {'currencies': currencies})
+    else:
+        error_message = 'Failed to fetch data from API'
+        return HttpResponse(error_message, status=response.status_code, content_type='text/plain')
 
 
 def ukraine_news(request):

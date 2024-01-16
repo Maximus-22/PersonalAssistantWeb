@@ -4,6 +4,7 @@ from .models import AddressBook
 from .forms import AddressBookForm, SearchContactForm
 from django.utils import timezone
 from django.db.models import Q
+from django.contrib import messages
 
 
 def all_contacts(request):
@@ -12,7 +13,8 @@ def all_contacts(request):
 
 def contact_list(request):
     contacts = AddressBook.objects.all()
-    return render(request, 'address_book/contact_list.html', {'contacts': contacts})
+    search_form = SearchContactForm(request.GET)
+    return render(request, 'address_book/contact_list.html', {'contacts': contacts, "search_form": search_form})
 
 
 def contact_detail(request, pk):
@@ -24,11 +26,13 @@ def contact_add(request):
     if request.method == 'POST':
         form = AddressBookForm(request.POST)
         if form.is_valid():
+            print("OK")
             contact = form.save()
-            return redirect('contact_detail', pk=contact.pk)
+            contact.user = request.user
+            return redirect('address_book:contact_detail', pk=contact.pk)
     else:
         form = AddressBookForm()
-    return render(request, 'address_book/contact_edit.html', {'form': form})
+    return render(request, 'address_book/contact_add.html', {'form': form})
 
 
 def contact_edit(request, pk):
@@ -46,7 +50,7 @@ def contact_edit(request, pk):
 def contact_delete(request, pk):
     contact = get_object_or_404(AddressBook, pk=pk)
     contact.delete()
-    return redirect('contact_list')
+    return redirect('address_book:contact_list')
 
 
 def upcoming_birthdays(request, days=7):
@@ -59,19 +63,21 @@ def contact_search(request):
     if request.method == 'GET':
         form = SearchContactForm(request.GET)
         if form.is_valid():
-            search_term = form.cleaned_data['search_term']
+            print("OK contact_search")
+            # search_term = form.cleaned_data['search_term']
+            query = request.GET.get('query')
+            results = AddressBook.objects.filter(Q(first_name__icontains=query) | Q(last_name__icontains=query))
 
-            contacts = AddressBook.objects.filter(
-                Q(first_name__icontains=search_term) |
-                Q(last_name__icontains=search_term) |
-                Q(address__icontains=search_term) |
-                Q(phone__icontains=search_term) |
-                Q(email__icontains=search_term)
-            )
-
-            return render(request, 'address_book/contact_search_results.html',
-                          {'contacts': contacts, 'search_term': search_term})
+            # contacts = AddressBook.objects.filter(
+            #     Q(first_name__icontains=search_term) |
+            #     Q(last_name__icontains=search_term) |
+            #     Q(address__icontains=search_term) |
+            #     Q(phone__icontains=search_term) |
+            #     Q(email__icontains=search_term)
+            # )
+            context = {'results': results, 'query': query}
+            return render(request, 'address_book/contact_search.html', context)
+            # return render(request, 'address_book/contact_search_results.html',
+            #               {'contacts': contacts, 'search_term': search_term})
     else:
-        form = SearchContactForm()
-
-    return render(request, 'address_book/contact_search.html', {'form': form})
+        messages.warning(request, 'Параметри запиту пошуку незадовільні.')
