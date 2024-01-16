@@ -1,0 +1,87 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block title %}
+Address Book
+{% endblock %}
+
+{% block content %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'addressbook/style.css' %}">
+
+<div class="quote ms-5 col-md-7" itemscope="" itemtype="http://schema.org/CreativeWork">
+    <p>
+        <p class="search_area">
+            <a href="{% url 'address_book:contact_add' %}" class="btn btn-primary ms-3">Add Contact</a>
+            <form id="search-form" action="{% url 'address_book:contact_search' %}" method="GET">
+                {% csrf_token %}
+                <div class="row g-3 align-items-center ms-3">
+                    <div class="col-auto">
+                        <label for="search" class="col-form-label"><b>Search Contacts</b></label>
+                    </div>
+                    <div class="col-auto">
+                        {{ search_form.query }}
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-info">Search</button>
+                    </div>
+                    <div class="col-auto">
+                        <span id="passwordHelpInline" class="form-text">
+                            <strong><i>Request must be at least 3 (three) characters.</i></strong>
+                        </span>
+                        <span>{{ search_form.errors.query }}</span>
+                    </div>
+                </div>
+            </form>
+            {% if search_form.query.value %}
+                <p>Search Query: {{ search_form.query.value }}</p>
+            {% endif %}
+        </p>
+    </p>
+</div>
+
+<div class="container mt-3">
+    <h2>All Contacts</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+
+    {% for contact in contacts %}
+
+    <div class="quote ms-5" itemscope="" itemtype="http://schema.org/CreativeWork">
+        <h3>{{ AddressBook.first_name }} {{ AddressBook.last_name }}</h3>
+        <span class="text" itemprop="text">
+            <p>Address: {{ AddressBook.address }}</p>
+            <p>Phone: {{ AddressBook.phone }}</p>
+            <p>Email: {{ AddressBook.email }}</p>
+            <p>Birthday: {{ AddressBook.birthday }}</p>
+            <span class="mb-3" style="float: right;">
+                <a href="{% url 'address_book:contact_delete' contact.id %}" class="btn btn-danger">Delete</a>
+            </span>
+        </span>
+
+    </div>
+
+    {% endfor %}
+
+    <nav>
+        <ul class="pager">
+            <li class="previous ms-5" style="float: left;">
+                <a class="{% if not contacts.has_previous %} disabled {% endif %}"
+                   href="{% if contacts.has_previous %} {% url 'address_book:all_contacts_paginate' contacts.previous_page_number %} {% else %} # {% endif %}">
+                       <span class="btn btn-secondary" aria-hidden="true">←</span> Previous</a>
+            </li>
+
+            <li class="next" class="btn btn-secondary">
+                <a class="{% if not contacts.has_next %} disabled {% endif %}"
+                   href="{% if contacts.has_next %} {% url 'address_book:all_contacts_paginate' contacts.next_page_number %} {% else %} # {% endif %}">
+                       Next <span class="btn btn-secondary" aria-hidden="true">→</span></a>
+            </li>
+        </ul>
+    </nav>
+
+    </div>
+</div>
+
+{% endblock %}

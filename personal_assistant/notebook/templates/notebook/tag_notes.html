@@ -1,5 +1,5 @@
 {% extends 'personal_assistant/base.html' %}
-
+{% load humanize %}
 {% block content %}
 
 {% load static %}
@@ -8,7 +8,7 @@
 
     <div class="author-details ms-5" style="margin-left: 10%;">
         <h2 class="author-title" style="margin-left: 5%;">
-            Viewing tag: <b style="color:dodgerblue;">{{ tag_name }}</b>
+            Перегляд Тега: <b style="color:dodgerblue;">{{ tag_name }}</b>
         </h2>
         <div class="col-md-8">
         
@@ -18,55 +18,46 @@
                 <h3>{{ notebook.title }}</h3>
                 <span class="text" itemprop="text">
                     <p>{{ notebook.description }}</p>
-                    <p>Created at: {{ notebook.created_at }}</p>
+                    <p><b>Час створення: </b>{{ notebook.created_at|naturaltime }}</p>
                     <span style="float: right;">
-
-                        {% comment %}
-                        {% if user.is_authenticated and quote.user == user %}
-                        {% endcomment %}
-
-                        <a href="{% url 'notebook:delete_note' notebook.id %}"class="btn btn-danger">Delete</a>
-
-                        {% comment %}
+                        {% if user.is_authenticated and notebook.user == user %}
+                        <a href="{% url 'notebook:delete_note' notebook.id %}"class="btn btn-danger">Видалити</a>
                         {% endif %}
-                        {% endcomment %}
-
                     </span>
                 </span>
-
-                {% comment %}
-                <span>
-                    by <small class="author" itemprop="author">{{ quote.author|author }}</small>
-                    <a href="{% url 'quotes:author_detail' author_id=quote.author.id %}" target="_self">(about)</a>
-                </span>
-                {% endcomment %}
-
                 <div class="tags">
-                    Tags:
+                    Теги:
                     <meta class="keywords" itemprop="keywords" content="{% for tag in notebook.tags.all %}{{ tag.name }},{% endfor %}">
                     {% for tag in notebook.tags.all %}
                         <a class="tag" href="{% url 'notebook:tag_notes' tag_name=tag.name %}">{{ tag.name }}</a>
                     {% endfor %}
                 </div>
-
             </div>
             
             {% endfor %}
 
-            <nav>
+            <div class="d-flex justify-content-start" style="margin-left: 5%;">
+                {% comment %}
+                <a href="{{ request.META.HTTP_REFERER|default:'{% url "notebook:all_notes_paginate" %}' }}
+                   class="btn btn-warning">Повернутися</a>>
+                {% endcomment %}
+                <a href="{% url 'notebook:all_notes_paginate' page=1 %}"
+                   class="btn btn-warning">Повернутися</a>
+            </div>
+            <nav class="mt-3">
                 <div class="pagination" class="mb-3">
                     <span class="step-links" style="margin-left: 5%;">
                         {% if notebooks_with_tag.has_previous %}
                             <!-- <a href="?page=1">&laquo; First</a> -->
-                            <a class="btn btn-secondary" href="?page={{ notebooks_with_tag.previous_page_number }}">Previous</a>
+                            <a class="btn btn-secondary" href="?page={{ notebooks_with_tag.previous_page_number }}">Попередня</a>
                         {% endif %}
                 
                         <span class="current" style="margin: 0 10px;">
-                            <strong>Page {{ notebooks_with_tag.number }} from {{ notebooks_with_tag.paginator.num_pages }}.</strong>
+                            <strong>Сторiнка {{ notebooks_with_tag.number }} з {{ notebooks_with_tag.paginator.num_pages }}.</strong>
                         </span>
                 
                         {% if notebooks_with_tag.has_next %}
-                            <a class="btn btn-secondary" href="?page={{ notebooks_with_tag.next_page_number }}">Next</a>
+                            <a class="btn btn-secondary" href="?page={{ notebooks_with_tag.next_page_number }}">Наступна</a>
                             <!-- <a href="?page={{ quotes_with_tag.paginator.num_pages }}">last &raquo;</a> -->
                         {% endif %}
                     </span>
