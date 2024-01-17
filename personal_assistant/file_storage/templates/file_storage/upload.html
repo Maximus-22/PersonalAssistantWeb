@@ -1,16 +1,23 @@
 {% extends 'personal_assistant/base.html' %}
 
 {% block title %}
-Upload File
+Завантаження Файлів
 {% endblock %}
 
 {% block content %}
 <div class="container mt-3">
-    <h2>Upload File</h2>
+    <h2>Завантаження Файлів</h2>
     <form method="post" enctype="multipart/form-data" onsubmit="return checkFile(this)">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Завантажити файл</button>
+                <div class="mb-5">
+            <label class="form-label">{{ form.file.label_tag }}</label>
+            {{ form.file }}
+        </div>
+        <div class="mb-5">
+            <label class="form-label">{{ form.description.label_tag }}</label>
+            {{ form.description }}
+        </div>
+        <button type="submit" style="margin-top: 0px" class="btn-crimson">Завантажити файл</button>
     </form>
 </div>
 {% endblock %}

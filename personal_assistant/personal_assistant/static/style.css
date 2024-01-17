@@ -1,89 +1,313 @@
+html,
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #EDF0F7;
+    font-family: Montserrat, sans-serif;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    font-size: 36px;
+    height: 75px;
+    width: 600px;
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+.btn-crimson {
+    margin-top: 50px;
+    background-color: #D84B8C;
+    border-color: #D84B8C;
+    padding: 15px;
+    color: white;
+    font-size: 18px;
+    border-radius: 20px;
+    font-weight: bold;
+
+}
+
+.btn-crimson:hover {
+    background-color: #ED9EC3;
+    border-color: #ED9EC3;
+}
+
+.main-menu {
+
+    background-color: #BDCEFA;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px;
+    font-size: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item {
+    list-style-type: none;
+    margin: 0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+    margin-right: 10px;
+    list-style: none;
+}
+
+.header .container .menu a:hover {
+    text-decoration: underline;
+}
+
+.main-menu .right-menu-item {
+    display: flex;
+    margin-left: auto;
+
+}
+
+.user-link {
+    font-weight: bold; /* Optional: Make the user link bold */
+}
+
+.active .nav-link {
+    font-weight: bold;
+    color: black;
+}
+
+
+.currency-table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    border: 2px solid black;
+    border-radius: 15px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+
+.currency-table th {
+    background-color: #6A92FB;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.currency-table td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.currency-table tr:hover {
+    background-color: #CCCED3;
+}
+
+.center-text {
+    text-align: center;
+}
+
+
+.nav-link.active {
+    background-color: #D2E9FF !important;
+    border-radius: 10px;
+}
+
+.card {
+    max-width: 100%;
+    margin: 20px auto;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+
+.card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.card-title a:hover {
+    color: #6c757d;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-text small {
+    color: #6c757d;
+}
+
+
+.search-form {
+    margin-top: 30px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-form label {
+    font-weight: bold;
+}
+
+.search_form input {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border-color: black;
+}
+
+.col-form-label {
+    font-weight: normal;
+    font-size: 22px;
+}
+
+.btn-outline-secondary {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #ADAFB4;
+    border-color: #ADAFB4;
+    padding: 5px;
+    color: white;
+    font-size: 18px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #C6CAD2;
+    border-color: #C6CAD2;
+    color: black;
+}
+
+
+.btn-success {
+    background-color: #D84B8C;
+    border-color: #D84B8C;
+    padding: 15px;
+    color: white;
+    font-size: 18px;
+    border-radius: 20px;
+    font-weight: bold;
+
+}
+
+.btn-success:hover {
+    background-color: #ED9EC3;
+    border-color: #ED9EC3;
+}
+.btn-info {
+    width: 100%;
+    background-color: #6A92FB;
+    border-color: #6A92FB;
+    padding: 15px;
+    color: white;
+    font-size: 18px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.btn-info:hover {
+    background-color: #A6BBF0;
+    border-color: #A6BBF0;
+    color: black;
+}
+
+.form-text {
+    font-style: italic;
+    color: #6c757d;
+}
+
+.btn-secondary {
+    width: 100%;
+    background-color: #6A92FB;
+    border-color: #6A92FB;
+    padding: 15px;
+    color: white;
+    font-size: 18px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.btn-secondary:hover {
+    background-color: #A6BBF0;
+    border-color: #A6BBF0;
+    color: black;
+}
+
+
+.btn-danger {
+    margin-top: 10px;
+    width: 100%;
+    background-color: #ADAFB4;
+    border-color: #ADAFB4;
+    padding: 5px;
+    color: white;
+    font-size: 18px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.btn-danger:hover {
+    background-color: #C6CAD2;
+    border-color: #C6CAD2;
+    color: black;
+}
+
 .quote {
-	padding: 10px;
-	margin-bottom: 30px;
-	border: 1px solid #333333;
-	border-radius: 5px;
-	box-shadow: 2px 2px 3px #333333;
+
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: white;
 }
 
-.quote span.text {
-	display: block;
-	margin-bottom: 5px;
-	font-size: large;
-	font-style: italic;
+.quote h3 {
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
-.quote small.author {
-	font-weight: bold;
-	color: #3677E8;
-}
-
-.quote .tags {
-	margin-top: 10px;
+.tags {
+    margin-top: 10px;
 }
 
 .tag {
-	padding: 2px 5px;
-	border-radius: 5px;
-	color: white;
-	font-size: small;
-	background-color: #7CA3E6;
+    margin-right: 5px; /* Add space between tags */
+    background: #D2E9FF; /* Set the tag color */
+    text-decoration: none;
+    color: black;
+    padding: 10px 15px 10px 15px;
+    border-radius: 15px;
+    display: inline-block;
 }
 
-.pager {
-	font-family: "Raleway","Helvetica Neue",Helvetica,Arial,sans-serif;
+.tag:hover {
+    background-color: #8AB2FF; /* Change background color on hover */
+    color: #fff; /* Change text color on hover */
 }
 
-.pager {
-	padding-left: 0;
-	margin: 22px 0;
-	list-style: none;
-	text-align: center;
-}
 
-.pager li {
-	display: inline;
-}
+ input[type="text"], textarea, select {
+        width: 100%; /* Make the input fields and textarea take up the full width */
+        padding: 10px; /* Add padding for spacing inside the input fields and textarea */
+        margin-bottom: 10px; /* Add margin below the input fields and textarea */
+        border: 1px solid #ddd; /* Add a border */
+        border-radius: 5px; /* Add rounded corners */
+    }
 
-.pager .next > a, .pager .next > span {
-	float: right;
-}
+    .d-flex {
+        justify-content: center; /* Center the buttons horizontally */
+    }
 
-.pager li > a, .pager li > span {
-	display: inline-block;
-	padding: 5px 14px;
-	background-color: #ffffff;
-	border: 1px solid dodgerblue;
-	border-radius: 15px;
-	}
 
-.disabled {
-	color: #333333;
-	cursor: not-allowed;
-}
-
-.col-md-4 {
-	width: 33.33333333%;
-}
-
-.col-md-8 {
-	width: 66.66666667%;
-}
-
-.author-details {
-	margin-left: 20%;
-    margin-right: 20%;
-	width: 80%;
-}
-
-.author-description {
-	text-align: justify;
-	margin-left: 20%;
-    margin-right: 20%;
-	margin-bottom: 20px;
-}
-
-.search_area {display: flex; align-items: center;}
-.search_area div {margin-right: 10px;}
-.search_area a,
-.search_area form {margin-right: 10px;}

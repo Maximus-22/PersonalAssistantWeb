@@ -1,7 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.views.decorators.cache import cache_control
+from django.contrib.staticfiles.views import serve
 
 from . import views
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,4 +15,4 @@ urlpatterns = [
     path('notes/', include('notebook.urls')),
     path('files/', include('file_storage.urls')),
     path('news/', include('news.urls')),
-]
+] + static(settings.STATIC_URL, view=cache_control(no_cache=True, must_revalidate=True)(serve))
