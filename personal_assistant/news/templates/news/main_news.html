@@ -1,12 +1,12 @@
 {% extends 'personal_assistant/base.html' %}
 
 {% block title %}
-News
+Новини
 {% endblock %}
 
 {% block content %}
 <div class="container mt-3">
-    <h2>News</h2>
+    <h2>Новини</h2>
 
     <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -26,20 +26,20 @@ News
         </li>
     </ul>
 
-    <table>
-        <tr>
-            <th>Валюта</th>
-            <th>Курс до гривні</th>
-            <th>Код</th>
-        </tr>
-        {% for currency in currencies %}
-        <tr>
-            <td>{{ currency.txt }}</td>
-            <td>{{ currency.rate }}</td>
-            <td>{{ currency.cc }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+<table class="currency-table">
+    <tr>
+        <th class="center-text">Валюта</th>
+        <th class="center-text">Курс до гривні</th>
+        <th class="center-text">Код</th>
+    </tr>
+    {% for currency in currencies %}
+    <tr>
+        <td class="center-text">{{ currency.txt }}</td>
+        <td class="center-text">{{ currency.rate }}</td>
+        <td class="center-text">{{ currency.cc }}</td>
+    </tr>
+    {% endfor %}
+</table>
 </div>
 
 {% endblock %}

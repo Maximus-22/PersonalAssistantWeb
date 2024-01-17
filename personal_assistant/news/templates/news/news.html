@@ -31,12 +31,12 @@
     {% if scraped_data %}
     <ul>
         {% for news_item in scraped_data %}
-        <div class="card mb-3" style="max-width: 1000px;">
+        <div class="card mb-3">
 
             <div class="row g-0">
                 {% if news_item.image %}
                 <div class="col-md-3">
-                    <img style="max-width: 250px;" src="{{ news_item.image }}" class="img-fluid rounded-start" alt="...">
+                    <img src="{{ news_item.image }}" class="img-fluid rounded-start" alt="...">
                 </div>
                 {% endif %}
                 <div class="col-md-8">
