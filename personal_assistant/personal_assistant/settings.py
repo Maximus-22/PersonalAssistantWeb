@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'file_storage.apps.FileStorageConfig',
     'news.apps.NewsConfig',
     'notebook.apps.NotebookConfig',
+    'pomodoro.apps.PomodoroConfig',
 ]
 
 MIDDLEWARE = [
