@@ -1,0 +1,140 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block title %}
+Помодоро
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="d-flex justify-content-center mb-3">
+        <button onclick="setTimer(25)" class="btn pomodoro-btn mx-2">Pomodoro</button>
+        <button onclick="setTimer(5)" class="btn pomodoro-btn mx-2">Коротка пауза</button>
+        <button onclick="setTimer(15)" class="btn pomodoro-btn mx-2">Довга пауза</button>
+    </div>
+    <h1 id="timer" class="timer">25:00</h1>
+    <div class="d-flex justify-content-center mb-3">
+        <button id="start-pause-btn" onclick="startPauseTimer()" class="btn pomodoro-btn-start">Старт
+        </button>
+    </div>
+    <div id="sessions-history">
+        {% for session in sessions %}
+        <p>{{ session.get_session_type_display }}: {{ session.start_time }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    var pomodoroTimer;
+    var isTimerRunning = false;
+    var pomodoroDuration = 25 * 60;
+    var startTime;
+
+    function setTimer(duration) {
+        pomodoroDuration = duration * 60;
+        isTimerRunning = false;
+        updateDisplay(pomodoroDuration);
+        document.querySelector('#start-pause-btn').textContent = 'Старт';
+    }
+
+    function startPauseTimer() {
+        if (!isTimerRunning) {
+            startTimer();
+            document.querySelector('#start-pause-btn').textContent = 'Пауза';
+        } else {
+            pauseTimer();
+            document.querySelector('#start-pause-btn').textContent = 'Старт';
+        }
+    }
+
+    function startTimer() {
+        startTime = new Date();
+        var timer = pomodoroDuration;
+        clearInterval(pomodoroTimer);
+        isTimerRunning = true;
+        pomodoroTimer = setInterval(function () {
+            if (--timer >= 0) {
+                var minutes = parseInt(timer / 60, 10);
+                var seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                document.querySelector('#timer').textContent = minutes + ":" + seconds;
+            } else {
+                clearInterval(pomodoroTimer);
+                isTimerRunning = false;
+            }
+        }, 1000);
+    }
+
+
+    function pauseTimer() {
+        clearInterval(pomodoroTimer);
+        isTimerRunning = false;
+        var endTime = new Date();
+        var durationInSeconds = Math.round((endTime - startTime) / 1000);
+        var duration = Math.round(durationInSeconds / 60);
+        sendSessionToServer(duration);
+
+    }
+
+    function sendSessionToServer(duration) {
+    console.log("Sending session to server with duration:", duration);
+    fetch('/pomodoro/start/P/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ duration: duration })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const sessionList = document.getElementById('sessions-history');
+            const newSession = document.createElement('p');
+            newSession.textContent = `${data.session_type}: ${data.start_time}`;
+            sessionList.appendChild(newSession);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+    }
+
+
+    function updateDisplay(time) {
+    var minutes = parseInt(time / 60, 10);
+    var seconds = parseInt(time % 60, 10);
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    document.querySelector('#timer').textContent = minutes + ":" + seconds;
+    }
+
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        updateDisplay(pomodoroDuration);
+    }, false);
+</script>
+
+{% endblock %}
