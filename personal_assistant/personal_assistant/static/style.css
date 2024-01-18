@@ -310,4 +310,30 @@ h2 {
         justify-content: center; /* Center the buttons horizontally */
     }
 
+.pomodoro-btn {
+    margin-top: 50px;
+    background-color: #D84B8C;
+    border-color: #D84B8C;
+    padding: 15px;
+    color: white;
+    font-size: 22px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.pomodoro-btn-start {
+    margin-top: 50px;
+    background-color: #6A92FB;
+    background-color: #6A92FB;
+    padding: 15px;
+    color: white;
+    font-size: 26px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.timer {
+    font-size: 4em;
+    margin: 20px 0;
+}
 
