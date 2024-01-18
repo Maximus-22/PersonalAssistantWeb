@@ -8,10 +8,8 @@ from django.http import JsonResponse, HttpResponseForbidden
 from django.views import View
 from django.db.models import Q
 
-
 from .forms import NotebookForm, DeleteNoteForm, SearchNoteForm
 from .models import Notebook, Tag, NotebookTag
-
 
 
 def format_created_at(created_at):
@@ -30,9 +28,8 @@ def format_created_at(created_at):
         return f"Created at: {delta.days // 30} months ago"
 
 
-
 @login_required
-def notebook_list(request, page = 1):
+def notebook_list(request, page=1):
     notebooks = Notebook.objects.all()
     search_form = SearchNoteForm(request.GET)
     elem_per_page = 5
@@ -55,10 +52,10 @@ def add_note(request):
                 tags = note_form.cleaned_data['tags']
                 tag_objects = [Tag.objects.get_or_create(name=tag.strip())[0] for tag in tags]
                 note.tags.set(tag_objects)
-                return redirect(to='notebook:all_notes')  
+                return redirect(to='notebook:all_notes')
     else:
         note_form = NotebookForm()
-    
+
     return render(request, 'notebook/add_note.html', {'note_form': note_form})
 
 
@@ -93,7 +90,7 @@ def update_note(request, notebook_id):
         # print(form)
         if request.user.is_authenticated and note.user == request.user:
             if note_form.is_valid():
-                
+
                 updated_note = note_form.save(commit=False)
                 updated_note.user = request.user
                 updated_note.save()
@@ -102,7 +99,7 @@ def update_note(request, notebook_id):
                 # print(tags_str)
                 tag_objects = [Tag.objects.get_or_create(name=tag)[0] for tag in tags_str]
                 updated_note.tags.set(tag_objects)
-                
+
                 messages.success(request, 'Нотатку успішно оновлено.')
                 return redirect(to='notebook:all_notes')
             else:
@@ -111,7 +108,8 @@ def update_note(request, notebook_id):
             messages.warning(request, 'У вас немає прав для оновлення цієї нотатки.')
     else:
         note_form = NotebookForm(instance=note)
-    return render(request, 'notebook/update_note.html', {'notebook_id': notebook_id, 'note': note, 'note_form': note_form})
+    return render(request, 'notebook/update_note.html',
+                  {'notebook_id': notebook_id, 'note': note, 'note_form': note_form})
 
 
 @login_required
@@ -155,6 +153,6 @@ class TagNotesView(View):
             notebooks_per_page = paginator.page(paginator.num_pages)
 
         context = {'tag_name': tag_name,
-                   'notebooks_with_tag': notebooks_per_page,}
+                   'notebooks_with_tag': notebooks_per_page, }
 
         return render(request, self.template_name, context)
