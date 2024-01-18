@@ -26,20 +26,84 @@
         </li>
     </ul>
 
-<table class="currency-table">
-    <tr>
-        <th class="center-text">Валюта</th>
-        <th class="center-text">Курс до гривні</th>
-        <th class="center-text">Код</th>
-    </tr>
-    {% for currency in currencies %}
-    <tr>
-        <td class="center-text">{{ currency.txt }}</td>
-        <td class="center-text">{{ currency.rate }}</td>
-        <td class="center-text">{{ currency.cc }}</td>
-    </tr>
-    {% endfor %}
-</table>
-</div>
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="col-md-4">
+            <h3>Курс валют</h3>
+            <table class="currency-table">
+                <tr>
+                    <th class="center-text">Валюта</th>
+                    <th class="center-text">Курс до гривні</th>
+                    <th class="center-text">Код</th>
+                </tr>
+                {% for currency in currencies %}
+                <tr>
+                    <td class="center-text">{{ currency.txt }}</td>
+                    <td class="center-text">{{ currency.rate }}</td>
+                    <td class="center-text">{{ currency.cc }}</td>
+                </tr>
+                {% endfor %}
+            </table>
 
+        </div>
+        <div class="col-md-4">
+            <h3>Прогноз погоди</h3>
+            <label for="city-select">Вибір міста:</label>
+            <select id="city-select">
+                {% for city in cities %}
+                <option value="{{ city.name }}">{{ city.name }}</option>
+                {% endfor %}
+            </select>
+
+
+            <div id="weather-table-container">
+                <div id="weather-table"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+        $('#city-select').change(function () {
+            var selectedCity = $(this).val();
+
+            $.ajax({
+                url: '/news/get_weather/',
+                method: 'GET',
+                data: {'city': selectedCity},
+                success: function (data) {
+                    if ('weather_data' in data) {
+                        // Update weather table with received data
+                        displayWeatherTable(data.weather_data);
+                    } else {
+                        console.log('Error fetching weather data:', data.error);
+                    }
+                },
+                error: function (error) {
+                    console.log('Error fetching weather data:', error);
+                }
+            });
+        });
+
+        function displayWeatherTable(weatherDataJson) {
+
+            var weatherData = JSON.parse(weatherDataJson);
+            if (weatherData && weatherData.forecast_days && Array.isArray(weatherData.forecast_days)) {
+                var tableHtml = '<table  class="currency-table"><thead><tr><th>Дата</th><th>Температура вдень(°C)</th><th>Температура вночі(°C)</th></tr></thead><tbody>';
+
+                weatherData.forecast_days.forEach(function (day) {
+                    tableHtml += '<tr><td>' + day.date + '</td><td>' + day.max_temperature + '</td><td>' + day.min_temperature + '</td></tr>';
+                });
+
+                tableHtml += '</tbody></table>';
+                $('#weather-table').html(tableHtml);
+            } else {
+                console.log('Error: Invalid weather data format.');
+            }
+        }
+    });
+</script>
 {% endblock %}

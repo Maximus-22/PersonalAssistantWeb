@@ -1,7 +1,54 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+import json
 
 import requests
 from bs4 import BeautifulSoup
+
+
+def get_weather_data(city, latitude, longitude):
+    params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "hourly": "temperature_2m,apparent_temperature,cloudcover,precipitation_probability",
+        "forecast_days": 3
+    }
+    response = requests.get("https://api.open-meteo.com/v1/forecast", params=params)
+
+    if response.status_code == 200:
+        data = json.loads(response.text)
+
+        hourly = data.get("hourly", {})
+        times = hourly.get("time", [])
+        temperature_2m = hourly.get("temperature_2m", [])
+        apparent_temperatures = hourly.get("apparent_temperature", [])
+
+        days_data = [{"temperature": [], "apparent_temperature": []} for _ in range(3)]
+        today = datetime.today()
+
+        for i in range(len(times)):
+            time = datetime.strptime(times[i], "%Y-%m-%dT%H:%M")
+            day_index = (time.date() - today.date()).days
+            if 0 <= day_index < 3:
+                days_data[day_index]["temperature"].append(temperature_2m[i])
+                days_data[day_index]["apparent_temperature"].append(apparent_temperatures[i])
+
+        weather_data = {
+            "city": city,
+            "forecast_days": [
+                {
+                    "date": (today + timedelta(days=i + 1)).strftime("%Y-%m-%d"),
+                    "max_temperature": max(day_data["temperature"]),
+                    "min_temperature": min(day_data["temperature"])
+                }
+                for i, day_data in enumerate(days_data)
+            ]
+        }
+
+        # Convert the dictionary to JSON
+        json_data = json.dumps(weather_data, indent=2)
+        return json_data
+    else:
+        print(f"Error fetching weather for {city.name}")
 
 
 def scraping_ukraine(limit=10):
