@@ -11,7 +11,7 @@ class PomodoroSession(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     start_time = models.DateTimeField(auto_now_add=True)
-    duration = models.IntegerField(default=25)
+    duration = models.CharField(max_length=10)
     session_type = models.CharField(max_length=2, choices=SESSION_CHOICES, default='P')
 
     def __str__(self):
