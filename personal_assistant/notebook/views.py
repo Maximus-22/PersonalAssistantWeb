@@ -63,8 +63,13 @@ def add_note(request):
 def search_notes(request):
     if request.method == 'GET':
         search_form = SearchNoteForm(request.GET)
+        query = request.GET.get('query', '')
+        
+        if not query or len(query) < 3:
+            messages.error(request, 'Мінімальна довжина запиту - 3 символи.')
+            return redirect(to='notebook:all_notes')
+
         if search_form.is_valid():
-            query = request.GET.get('query')
             results = Notebook.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
             page = request.GET.get('page', 1)
             paginator = Paginator(results, 5)
@@ -127,7 +132,7 @@ def delete_note(request, notebook_id):
                 return redirect(to='notebook:all_notes')
             else:
                 # messages.warning(request, 'The Note deletion cancelled.')
-                messages.warning(request, 'Видалення нотатки скасовано.')
+                messages.warning(request, 'Видалення Нотатки скасовано.')
     else:
         form = DeleteNoteForm()
 

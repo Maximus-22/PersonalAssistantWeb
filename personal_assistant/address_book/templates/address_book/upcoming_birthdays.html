@@ -1,17 +1,24 @@
 {% extends 'personal_assistant/base.html' %}
 
 {% block content %}
-  <h2>Upcoming Birthdays</h2>
-  <p>Showing birthdays for the next {{ days }} days.</p>
-
-  {% if upcoming_birthdays %}
+  <h2>Майбутні дні народження</h2>
+  <p>Вiдображено дні народження за наступні {{ shift_day }} дні(iв).</p>
+  <p></p>
+  <a style="margin-bottom: 25px;" href="{{ request.META.HTTP_REFERER|default:'{% url " address_book:contact_list" %}' }}"
+  class="btn btn-warning">Повернутися</a>
+  <br>
+  {% if upcoming_birthdays_contacts %}
     <ul>
-      {% for contact in upcoming_birthdays %}
-        <li>{{ contact.name }} - {{ contact.birthday|date:"F j" }}</li>
+      {% for contact in upcoming_birthdays_contacts %}
+      <p>
+        <li>{{ contact.first_name }} {{ contact.last_name }}</li>
+        <li>{{ contact.phone }} </li> 
+        <li>{{ contact.birthday }}</li>
+      </p>
       {% endfor %}
     </ul>
   {% else %}
-    <p>No upcoming birthdays in the next {{ days }} days.</p>
+    <p>Протягом наступних {{ shift_day }} днів не буде днів народження.</p>
   {% endif %}
 {% endblock %}
 

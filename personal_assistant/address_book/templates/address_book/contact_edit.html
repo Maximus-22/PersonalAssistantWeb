@@ -2,11 +2,14 @@
 
 {% block content %}
   <h2>Edit Contact</h2>
+  <a style="margin-bottom: 25px;" href="{{ request.META.HTTP_REFERER|default:'{% url "address_book:contact_list" %}' }}"
+  class="btn btn-warning">Повернутися</a>
   <form method="post" class="form">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save changes</button>
+    <p></p>
+    <button type="submit">Зберегти</button>
   </form>
   <br>
-  <a href="{% url 'contact_detail' pk=contact.pk %}">Cancel</a>
+  <input type="reset" style="width: 150px" class="btn btn-secondary" value="Скинути">
 {% endblock %}

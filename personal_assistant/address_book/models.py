@@ -12,4 +12,4 @@ class AddressBook(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, default=None)
 
     def __str__(self):
-        return f"{self.first_name}"
+        return f"{self.first_name} {self.last_name}"
