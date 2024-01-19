@@ -13,11 +13,11 @@ from django.utils import timezone
 def start_pomodoro(request, session_type):
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest' and request.method == 'POST':
         data = json.loads(request.body)
-        duration = data.get('duration')
+        duration_text = data.get('duration')
         new_session = PomodoroSession.objects.create(
             user=request.user,
             start_time=timezone.now(),
-            duration=duration,
+            duration=duration_text,
             session_type=session_type
         )
         formatted_start_time = date_format(new_session.start_time, "d F Y H:i")
