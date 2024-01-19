@@ -3,10 +3,10 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.utils.formats import date_format
+from django.utils.timezone import localtime
 
 from .models import PomodoroSession
-from django.utils import timezone
+from django.utils import timezone,formats
 
 
 @login_required
@@ -20,7 +20,7 @@ def start_pomodoro(request, session_type):
             duration=duration_text,
             session_type=session_type
         )
-        formatted_start_time = date_format(new_session.start_time, "d F Y H:i")
+        formatted_start_time = formats.date_format(localtime(new_session.start_time), "d E Y р. H:i")
         return JsonResponse({
             "success": True,
             "session_type": new_session.get_session_type_display(),
