@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = "uk-UA"
 
-TIME_ZONE = "Europe/Moscow"
+TIME_ZONE = 'Europe/Kyiv'
 
 USE_I18N = True
 
