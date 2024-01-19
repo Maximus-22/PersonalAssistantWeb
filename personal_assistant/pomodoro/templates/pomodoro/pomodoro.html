@@ -97,7 +97,6 @@
         var durationInSeconds = Math.round((endTime - startTime) / 1000);
         var duration = Math.round(durationInSeconds / 60);
         sendSessionToServer(duration);
-
     }
 
     function sendSessionToServer(duration) {
@@ -139,7 +138,6 @@
     });
     }
 
-
     function updateDisplay(time) {
     var minutes = parseInt(time / 60, 10);
     var seconds = parseInt(time % 60, 10);
@@ -162,8 +160,6 @@
     }
     return cookieValue;
     }
-
-
 
     document.addEventListener('DOMContentLoaded', function () {
         updateDisplay(pomodoroDuration);
