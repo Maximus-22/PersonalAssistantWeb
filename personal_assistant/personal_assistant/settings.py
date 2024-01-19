@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'file_storage.apps.FileStorageConfig',
     'news.apps.NewsConfig',
     'notebook.apps.NotebookConfig',
+    'pomodoro.apps.PomodoroConfig',
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = "uk-UA"
 
-TIME_ZONE = "Europe/Moscow"
+TIME_ZONE = 'Europe/Kyiv'
 
 USE_I18N = True
 
@@ -116,7 +117,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'personal_assistant', 'static'),
+    os.path.join(BASE_DIR, 'personal_assistant', 'static'),
 ]
 
 

@@ -41,6 +41,10 @@
     <li class="nav-item {% if request.path|slice:":6" == '/news/' %}active{% endif %}">
         <a class="nav-link" href="{% url 'news:main_news' %}">Новини</a>
     </li>
+    <li class="nav-item {% if request.path|slice:":7" == '/pomodoro/' %}active{% endif %}">
+    <a class="nav-link" href="{% url 'pomodoro:pomodoro' %}">Помодоро</a>
+    </li>
+
     <li class="nav-item right-menu-item">
         <a class="nav-link user-link" style="color: black">{{ request.user }}</a>
     </li>
