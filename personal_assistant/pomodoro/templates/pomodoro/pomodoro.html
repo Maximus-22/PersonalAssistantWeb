@@ -95,8 +95,8 @@
         isTimerRunning = false;
         var endTime = new Date();
         var durationInSeconds = Math.round((endTime - startTime) / 1000);
-        var duration = Math.round(durationInSeconds / 60);
-        sendSessionToServer(duration);
+        var durationText = durationInSeconds < 60 ? `${durationInSeconds} сек` : Math.round(durationInSeconds / 60);
+        sendSessionToServer(durationText);
     }
 
     function sendSessionToServer(duration) {
