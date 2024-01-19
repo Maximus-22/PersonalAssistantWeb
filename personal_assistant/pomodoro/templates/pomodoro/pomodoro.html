@@ -18,11 +18,25 @@
         <button id="start-pause-btn" onclick="startPauseTimer()" class="btn pomodoro-btn-start">Старт
         </button>
     </div>
-    <div id="sessions-history">
+    <table class="table table-bordered mt-3 currency-table">
+        <thead>
+        <tr>
+            <th>Тип Сесії</th>
+            <th class="text-center">Час Початку</th>
+            <th class="text-center">Тривалість (хв)</th>
+        </tr>
+        </thead>
+        <tbody>
         {% for session in sessions %}
-        <p>{{ session.get_session_type_display }}: {{ session.start_time }}</p>
+        <tr>
+            <td>{{ session.get_session_type_display }}</td>
+            <td class="text-center">{{ session.start_time }}</td>
+            <td class="text-center">{{ session.duration }}</td>
+        </tr>
         {% endfor %}
-    </div>
+        </tbody>
+    </table>
+    <audio id="timer-sound" src="{% static 'timer-sound.wav' %}" preload="auto"></audio>
 </div>
 {% endblock %}
 
@@ -66,10 +80,15 @@
             } else {
                 clearInterval(pomodoroTimer);
                 isTimerRunning = false;
+                playSound();
             }
         }, 1000);
     }
 
+    function playSound() {
+        var audio = document.getElementById("timer-sound");
+        audio.play();
+    }
 
     function pauseTimer() {
         clearInterval(pomodoroTimer);
@@ -95,10 +114,24 @@
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            const sessionList = document.getElementById('sessions-history');
-            const newSession = document.createElement('p');
-            newSession.textContent = `${data.session_type}: ${data.start_time}`;
-            sessionList.appendChild(newSession);
+            const tableBody = document.querySelector('.currency-table tbody');
+            const newRow = document.createElement('tr');
+
+            const sessionTypeCell = document.createElement('td');
+            sessionTypeCell.textContent = data.session_type;
+            newRow.appendChild(sessionTypeCell);
+
+            const startTimeCell = document.createElement('td');
+            startTimeCell.className = 'text-center';
+            startTimeCell.textContent = data.start_time;
+            newRow.appendChild(startTimeCell);
+
+            const durationCell = document.createElement('td');
+            durationCell.className = 'text-center';
+            durationCell.textContent = data.duration;
+            newRow.appendChild(durationCell);
+
+            tableBody.appendChild(newRow);
         }
     })
     .catch((error) => {
