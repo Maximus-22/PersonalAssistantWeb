@@ -130,7 +130,7 @@
             durationCell.textContent = data.duration;
             newRow.appendChild(durationCell);
 
-            tableBody.appendChild(newRow);
+            tableBody.insertBefore(newRow, tableBody.firstChild);
         }
     })
     .catch((error) => {
