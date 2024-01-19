@@ -29,7 +29,7 @@
 
     {% if request.user.is_authenticated %}
     <li class="nav-item {% if request.path == '/contacts/all_contacts/' %}active{% endif %}">
-        <a class="nav-link" href="{% url 'address_book:all_contacts' %}">Адресна книга</a>
+        <a class="nav-link" href="{% url 'address_book:contact_list' %}">Адресна книга</a>
     </li>
 
     <li class="nav-item {% if request.path|slice:":7" == '/notes/' %}active{% endif %}">

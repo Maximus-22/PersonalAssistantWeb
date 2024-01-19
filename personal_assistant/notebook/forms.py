@@ -28,3 +28,4 @@ class DeleteNoteForm(forms.Form):
 
 class SearchNoteForm(forms.Form):
     query = forms.CharField(min_length=3, max_length=32, required=False, initial='')
+

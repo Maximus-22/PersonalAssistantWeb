@@ -2,18 +2,15 @@
 name = "personalassistantweb"
 version = "0.1.0"
 description = ""
-authors = ["Yevhenii Korniev <94477980+Korniev@users.noreply.github.com>"]
+authors = ["Maximus-22 <maksim.melnichenko@nservice.com.ua>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^5.0.1"
-python-dotenv = "^1.0.0"
-psycopg2-binary = "^2.9.9"
-boto3 = "^1.34.18"
-django-storages = "^1.14.2"
 psycopg2 = "^2.9.9"
-beautifulsoup4 = "^4.12.2"
+boto3 = "^1.34.22"
+beautifulsoup4 = "^4.12.3"
 requests = "^2.31.0"
 
 

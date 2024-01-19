@@ -1,10 +1,13 @@
 {% extends 'personal_assistant/base.html' %}
 
 {% block content %}
-  <h1>{{ contact.first_name }} {{ contact.last_name }}</h1>
-  <p>Address: {{ contact.address }}</p>
-  <p>Phone: {{ contact.phone }}</p>
-  <p>Email: {{ contact.email }}</p>
-  <p>Birthday: {{ contact.birthday }}</p>
+  <h1>Новий Контакт успiшно створено.</h1>
+  <h2>{{ contact.first_name }} {{ contact.last_name }}</h2>
+  <p>Адреса: {{ contact.address }}</p>
+  <p>Телефон: {{ contact.phone }}</p>
+  <p>Електронна адреса: {{ contact.email }}</p>
+  <p>День народження: {{ contact.birthday }}</p>
   <!-- Добавьте дополнительные поля при необходимости -->
+  <a style="margin-bottom: 25px;" href="{% url 'address_book:contact_list' %}"
+     class="btn btn-warning">Повернутися</a>
 {% endblock %}

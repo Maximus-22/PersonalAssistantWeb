@@ -31,8 +31,12 @@ Notebook
         <div class="row g-3 align-items-center ms-3">
 
             <div class="col-md-10 search_form">
+                {% comment %}
+                <input type="text" id="search_form" name="search_form" {{ search_form.query.value}}>
+                {% endcomment %}
                 {{ search_form.query }}
             </div>
+
             <div class="col-md-2">
                 <button type="submit" class="btn btn-info">Шукати</button>
             </div>
@@ -40,30 +44,26 @@ Notebook
         </div>
         <div class="row g-3 align-items-center ms-3">
             <div class="col-auto">
-                            <span id="passwordHelpInline" class="form-text">
-                                {% comment %}
-                                <strong><i>Request must be at least 3 (three) characters.</i></strong>
-                                {% endcomment %}
-                                <strong><i>Запит має містити не менше 3 (трьох) символів.</i></strong>
-                            </span>
+                <span id="passwordHelpInline" class="form-text">
+                    {% comment %}
+                    <strong><i>Request must be at least 3 (three) characters.</i></strong>
+                    <strong><i>Запит має містити не менше 3 (трьох) символів.</i></strong>
+                    {% endcomment %}
+                </span>
                 <span>{{ search_form.errors.query }}</span>
             </div>
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <span {% if message.tags %} class="alert alert-info" {% endif %}>{{ message }}</span>
+                {% endfor %}
+            </div>
+            <p></p>
+            {% endif %}
         </div>
     </form>
 
-    {% comment %}
-    {% if form.query.value %}
-    <p>Search Query: {{ search_form.query.value }}</p>
-    {% endif %}
-    {% endcomment %}
-    </p>
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <span {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>{{ message }}</span>
-        {% endfor %}
-    </div>
-    {% endif %}
+    <p></p>
 
     {% for notebook in notebooks %}
 
