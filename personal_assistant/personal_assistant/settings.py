@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-1fz6yn)5t-50%z9%iiod1dk=gu2=-9=tel3^bh14*nhzzh+368"
+SECRET_KEY = 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -71,11 +71,11 @@ WSGI_APPLICATION = 'personal_assistant.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        "NAME": "project_2",
-        "USER": "postgres",
-        "PASSWORD": "123qwe",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "NAME": ,
+        "USER": ,
+        "PASSWORD": ,
+        "HOST": ,
+        "PORT": ,
     }
 }
 
@@ -134,12 +134,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024
 
 # AWS settings for S3
-AWS_ACCESS_KEY_ID = 'AKIA5FTZEECU3BHD5HUG'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'personal-assistant-for-django-project-bucket'
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-AWS_S3_REGION_NAME = 'eu-west-3'
+AWS_ACCESS_KEY_ID = 
+AWS_SECRET_ACCESS_KEY = 
+AWS_STORAGE_BUCKET_NAME = 
+AWS_S3_FILE_OVERWRITE = 
+AWS_DEFAULT_ACL = 
+AWS_S3_REGION_NAME = 
 
 # Using S3 for file storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
