@@ -1,7 +1,7 @@
 {% extends 'personal_assistant/base.html' %}
 {% load humanize %}
 {% block title %}
-Notebook
+Пошук нотаток
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@ Notebook
         {% comment %}
         <h2 class="author-title">Result Notes of Query: "{{ query }}"</h2>
         {% endcomment %}
-        <h2 style="width: 100%;">Знайденi Нотатки за запитом ' <b style="color:#6A92FB;">{{ query }}</b>'</h2>
+        <h2 style="width: 100%;">Знайденi нотатки за запитом " <b style="color:#6A92FB;">{{ query }}</b>"</h2>
     </div>
 
     <div class="d-flex justify-content-start" style="margin-bottom: 25px;">
@@ -80,7 +80,7 @@ Notebook
         {% comment %}
         <h2>No results found for <i>"{{ query }}"</i></h2>
         {% endcomment %}
-        <h2 style="width: 100%;">Не знайдено результатів для запиту <i>"{{ query }}"</i></h2>
+        <h2 style="width: 100%;">Не знайдено результатів для запиту "{{ query }}"</h2>
     </div>
     {% endif %}
 </div>
