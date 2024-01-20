@@ -1,16 +1,16 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv()  # Завантажує змінні середовища з файлу .env
+# load_dotenv()  # Завантажує змінні середовища з файлу .env
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = "django-insecure-1fz6yn)5t-50%z9%iiod1dk=gu2=-9=tel3^bh14*nhzzh+368"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -71,11 +71,11 @@ WSGI_APPLICATION = 'personal_assistant.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_DOMAIN"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+        "NAME": "project_2",
+        "USER": "postgres",
+        "PASSWORD": "123qwe",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -109,16 +109,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'personal_assistant', 'static'),
 ]
-
 
 # Куди перенаправляти, коли користувач залогинiвся
 LOGIN_REDIRECT_URL = "/"
@@ -134,9 +134,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2 * 1024 * 1024
 
 # AWS settings for S3
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = 'AKIA5FTZEECU3BHD5HUG'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'personal-assistant-for-django-project-bucket'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_REGION_NAME = 'eu-west-3'
