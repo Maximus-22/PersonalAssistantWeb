@@ -15,4 +15,5 @@ urlpatterns = [
     path('notes/', include('notebook.urls')),
     path('files/', include('file_storage.urls')),
     path('news/', include('news.urls')),
+    path('pomodoro/', include('pomodoro.urls')),
 ] + static(settings.STATIC_URL, view=cache_control(no_cache=True, must_revalidate=True)(serve))

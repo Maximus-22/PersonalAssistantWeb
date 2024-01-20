@@ -1,0 +1,169 @@
+{% extends 'personal_assistant/base.html' %}
+
+{% block title %}
+Помодоро
+{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="d-flex justify-content-center mb-3">
+        <button onclick="setTimer(25)" class="btn pomodoro-btn mx-2">Pomodoro</button>
+        <button onclick="setTimer(5)" class="btn pomodoro-btn mx-2">Коротка пауза</button>
+        <button onclick="setTimer(15)" class="btn pomodoro-btn mx-2">Довга пауза</button>
+    </div>
+    <h1 id="timer" class="timer">25:00</h1>
+    <div class="d-flex justify-content-center mb-3">
+        <button id="start-pause-btn" onclick="startPauseTimer()" class="btn pomodoro-btn-start">Старт
+        </button>
+    </div>
+    <table class="table table-bordered mt-3 currency-table">
+        <thead>
+        <tr>
+            <th>Тип Сесії</th>
+            <th class="text-center">Час Початку</th>
+            <th class="text-center">Тривалість (хв)</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for session in sessions %}
+        <tr>
+            <td>{{ session.get_session_type_display }}</td>
+            <td class="text-center">{{ session.start_time }}</td>
+            <td class="text-center">{{ session.duration }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <audio id="timer-sound" src="{% static 'timer-sound.wav' %}" preload="auto"></audio>
+</div>
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    var pomodoroTimer;
+    var isTimerRunning = false;
+    var pomodoroDuration = 25 * 60;
+    var startTime;
+
+    function setTimer(duration) {
+        pomodoroDuration = duration * 60;
+        isTimerRunning = false;
+        updateDisplay(pomodoroDuration);
+        document.querySelector('#start-pause-btn').textContent = 'Старт';
+    }
+
+    function startPauseTimer() {
+        if (!isTimerRunning) {
+            startTimer();
+            document.querySelector('#start-pause-btn').textContent = 'Пауза';
+        } else {
+            pauseTimer();
+            document.querySelector('#start-pause-btn').textContent = 'Старт';
+        }
+    }
+
+    function startTimer() {
+        startTime = new Date();
+        var timer = pomodoroDuration;
+        clearInterval(pomodoroTimer);
+        isTimerRunning = true;
+        pomodoroTimer = setInterval(function () {
+            if (--timer >= 0) {
+                var minutes = parseInt(timer / 60, 10);
+                var seconds = parseInt(timer % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                document.querySelector('#timer').textContent = minutes + ":" + seconds;
+            } else {
+                clearInterval(pomodoroTimer);
+                isTimerRunning = false;
+                playSound();
+            }
+        }, 1000);
+    }
+
+    function playSound() {
+        var audio = document.getElementById("timer-sound");
+        audio.play();
+    }
+
+    function pauseTimer() {
+        clearInterval(pomodoroTimer);
+        isTimerRunning = false;
+        var endTime = new Date();
+        var durationInSeconds = Math.round((endTime - startTime) / 1000);
+        var durationText = durationInSeconds < 60 ? `${durationInSeconds} сек` : Math.round(durationInSeconds / 60);
+        sendSessionToServer(durationText);
+    }
+
+    function sendSessionToServer(duration) {
+    console.log("Sending session to server with duration:", duration);
+    fetch('/pomodoro/start/P/', {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ duration: duration })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const tableBody = document.querySelector('.currency-table tbody');
+            const newRow = document.createElement('tr');
+
+            const sessionTypeCell = document.createElement('td');
+            sessionTypeCell.textContent = data.session_type;
+            newRow.appendChild(sessionTypeCell);
+
+            const startTimeCell = document.createElement('td');
+            startTimeCell.className = 'text-center';
+            startTimeCell.textContent = data.start_time;
+            newRow.appendChild(startTimeCell);
+
+            const durationCell = document.createElement('td');
+            durationCell.className = 'text-center';
+            durationCell.textContent = data.duration;
+            newRow.appendChild(durationCell);
+
+            tableBody.insertBefore(newRow, tableBody.firstChild);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+    }
+
+    function updateDisplay(time) {
+    var minutes = parseInt(time / 60, 10);
+    var seconds = parseInt(time % 60, 10);
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    document.querySelector('#timer').textContent = minutes + ":" + seconds;
+    }
+
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        updateDisplay(pomodoroDuration);
+    }, false);
+</script>
+
+{% endblock %}

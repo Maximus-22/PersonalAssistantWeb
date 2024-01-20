@@ -4,13 +4,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
 
-"""
-def user_directory_path(instance, filename):
-    extension = filename.split('.')[-1]
-    user_folder = f'{instance.user.id}/' if instance.user else ''
-    return f'files/{user_folder}{extension}/{filename}'
-"""
-
 
 def user_directory_path(instance, filename):
     name, extension = os.path.splitext(filename)

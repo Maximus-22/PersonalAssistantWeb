@@ -310,4 +310,36 @@ h2 {
         justify-content: center; /* Center the buttons horizontally */
     }
 
+.pomodoro-btn {
+    margin-top: 30px;
+    background-color: #D84B8C;
+    border-color: #D84B8C;
+    padding: 15px;
+    color: white;
+    font-size: 22px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.pomodoro-btn-start {
+    margin-top: 30px;
+    background-color: #6A92FB;
+    background-color: #6A92FB;
+    padding: 15px;
+    color: white;
+    font-size: 26px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.pomodoro-btn:hover, .pomodoro-btn-start:hover {
+    background-color: #ED9EC3;
+    border-color: #ED9EC3;
+}
+
+.timer {
+    font-size: 4em;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 
