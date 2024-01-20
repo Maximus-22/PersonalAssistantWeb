@@ -207,6 +207,7 @@ h2 {
     background-color: #ED9EC3;
     border-color: #ED9EC3;
 }
+
 .btn-info {
     width: 100%;
     background-color: #6A92FB;
@@ -298,17 +299,17 @@ h2 {
 }
 
 
- input[type="text"], textarea, select {
-        width: 100%; /* Make the input fields and textarea take up the full width */
-        padding: 10px; /* Add padding for spacing inside the input fields and textarea */
-        margin-bottom: 10px; /* Add margin below the input fields and textarea */
-        border: 1px solid #ddd; /* Add a border */
-        border-radius: 5px; /* Add rounded corners */
-    }
+input[type="text"], textarea, select {
+    width: 100%; /* Make the input fields and textarea take up the full width */
+    padding: 10px; /* Add padding for spacing inside the input fields and textarea */
+    margin-bottom: 10px; /* Add margin below the input fields and textarea */
+    border: 1px solid #ddd; /* Add a border */
+    border-radius: 5px; /* Add rounded corners */
+}
 
-    .d-flex {
-        justify-content: center; /* Center the buttons horizontally */
-    }
+.d-flex {
+    justify-content: center; /* Center the buttons horizontally */
+}
 
 .pomodoro-btn {
     margin-top: 30px;
@@ -324,7 +325,7 @@ h2 {
 .pomodoro-btn-start {
     margin-top: 30px;
     background-color: #6A92FB;
-    background-color: #6A92FB;
+    border-color: #6A92FB;
     padding: 15px;
     color: white;
     font-size: 26px;
@@ -332,9 +333,17 @@ h2 {
     font-weight: bold;
 }
 
-.pomodoro-btn:hover, .pomodoro-btn-start:hover {
+.pomodoro-btn:hover {
     background-color: #ED9EC3;
     border-color: #ED9EC3;
+    color: black;
+}
+
+
+.pomodoro-btn-start:hover {
+    background-color: #A6BBF0;
+    border-color: #A6BBF0;
+    color: black;
 }
 
 .timer {

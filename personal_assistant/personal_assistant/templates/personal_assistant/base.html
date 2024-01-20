@@ -28,7 +28,7 @@
     </li>
 
     {% if request.user.is_authenticated %}
-    <li class="nav-item {% if request.path == '/contacts/all_contacts/' %}active{% endif %}">
+    <li class="nav-item {% if request.path|slice:":10" == '/contacts/' %}active{% endif %}">
         <a class="nav-link" href="{% url 'address_book:contact_list' %}">Адресна книга</a>
     </li>
 
@@ -41,7 +41,7 @@
     <li class="nav-item {% if request.path|slice:":6" == '/news/' %}active{% endif %}">
         <a class="nav-link" href="{% url 'news:main_news' %}">Новини</a>
     </li>
-    <li class="nav-item {% if request.path|slice:":7" == '/pomodoro/' %}active{% endif %}">
+    <li class="nav-item {% if request.path|slice:":10" == '/pomodoro/' %}active{% endif %}">
     <a class="nav-link" href="{% url 'pomodoro:pomodoro' %}">Помодоро</a>
     </li>
 

@@ -1,15 +1,52 @@
 {% extends 'personal_assistant/base.html' %}
 
+{% block title %}
+Оновити контакт
+{% endblock %}
+
 {% block content %}
-  <h2>Edit Contact</h2>
+<div class="container mt-3">
+  <h2>Оновити Контакт</h2>
   <a style="margin-bottom: 25px;" href="{{ request.META.HTTP_REFERER|default:'{% url "address_book:contact_list" %}' }}"
   class="btn btn-warning">Повернутися</a>
   <form method="post" class="form">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <p></p>
-    <button type="submit">Зберегти</button>
+      {% csrf_token %}
+
+      <div class="mb-5">
+          <label class="form-label">{{ form.first_name.label_tag }}</label>
+          {{ form.first_name }}
+      </div>
+      <div class="mb-5">
+          <label class="form-label">{{ form.last_name.label_tag }}</label>
+          {{ form.last_name }}
+          <span>{{form.errors.last_name}}</span>
+      </div>
+      <div class="mb-5">
+          <label class="form-label">{{ form.address.label_tag }}</label>
+          {{ form.address }}
+          <span>{{form.errors.address}}</span>
+      </div>
+      <div class="mb-5">
+          <label class="form-label">{{ form.phone.label_tag }}</label>
+          {{ form.phone }}
+          <span>{{form.errors.phone}}</span>
+      </div>
+      <div class="mb-5">
+          <label class="form-label">{{ form.email.label_tag }}</label>
+          {{ form.email }}
+          <span>{{form.errors.email}}</span>
+      </div>
+      <div class="mb-5">
+          <label class="form-label">{{ form.birthday.label_tag }}</label>
+          {{ form.birthday }}
+          <span>{{form.errors.birthday}}</span>
+      </div>
+      <div style="margin-bottom: 50px" class="d-flex justify-content-start" class="mb-3">
+          <button type="submit" style="margin-top: 0px" class="btn btn-primary btn-crimson me-2">Зберегти</button>
+          <input type="reset" style="width: 150px" class="btn btn-secondary" value="Скинути">
+
+      </div>
   </form>
-  <br>
-  <input type="reset" style="width: 150px" class="btn btn-secondary" value="Скинути">
+    <br>
+</div>
 {% endblock %}

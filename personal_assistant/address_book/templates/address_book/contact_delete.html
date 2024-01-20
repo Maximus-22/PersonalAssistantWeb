@@ -1,59 +1,66 @@
 {% extends 'personal_assistant/base.html' %}
+{% block title %}
+Видалити контакт
+{% endblock %}
+
 
 {% block content %}
 
-{% load static %}
-<link rel="stylesheet" href="{% static 'addressbook/style.css' %}">
-
-{% if form.errors and form.non_field_errors %}
-<div class="alert alert-danger" role="alert">
-    {{ form.non_field_errors }}
-</div>
-{% endif %}
-
-<div class="quote ms-5 col-md-7" itemscope="" itemtype="http://schema.org/CreativeWork">
-    <h2 style="text-align: center;">Видалення Контакту</h2>
-</div>
-
-{% if messages %}
-<div class="messages">
-    {% for message in messages %}
-    <span {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>{{ message }}</span>
-    {% endfor %}
-</div>
-{% endif %}
-
-<div class="author-details" style="margin-left: 10%;">
-  <form method="post" action="{% url 'address_book:contact_delete' pk %}">
-    {% csrf_token %}
-    {{ form.confirm_delete }}
-    {{ form.errors }}
-    <div class="quote" style="margin-right: 15%;" itemscope="" itemtype="http://schema.org/CreativeWork">
-        <span class="text" style="margin-left: auto; margin-right: 15%;" itemprop="text">
-            <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-            <span class="text" itemprop="text">
-                <p>Адреса: {{ contact.address }}</p>
-                <p>Телефон: {{ contact.phone }}</p>
-                <p>Електронна адреса: {{ contact.email }}</p>
-                <p>День народження: {{ contact.birthday }}</p>
-            </span>
-        </span>
-        <div class="d-flex justify-content-start mb-3">
-            <div class="quote ms-5 mt-3">
-                <span class="text" itemprop="text">
-                    <p><strong>Ви впевнені, що хочете видалити цей Контакт?</strong></p>
-                </span>
-            </div>
-            <div class="col-md-4" style="margin-left: 3%; margin-top: 3%;">
-                <p>
-                    <button type="submit" class="btn btn-danger me-4">Пiдтвердити</button>
-                    <a href="{{ request.META.HTTP_REFERER|default:'{% url "address_book:contact_list" %}' }}"
-                        class="btn btn-secondary">Повернутися</a>
-                </p>
-            </div>
-        </div>
+<div class="container mt-3">
+    {% if form.errors and form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {{form.non_field_errors}}
     </div>
-  </form>
-</div>
+    {% endif %}
+    <h2 style="text-align: center;">Видалити контакт</h2>
 
-{% endblock %}
+
+    <div class="author-details">
+        <form method="post" action="{% url 'address_book:contact_delete' pk %}">
+            {% csrf_token %}
+            {{ form.confirm_delete }}
+            {{form.errors}}
+
+            <div class="quote" style="margin-bottom: 25px;" itemscope="" itemtype="http://schema.org/CreativeWork">
+                <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
+                <span class="text" itemprop="text">
+            <p>Адреса: {{ contact.address }}</p>
+            <p>Телефон: {{ contact.phone }}</p>
+            <p>Електронна адреса: {{ contact.email }}</p>
+            <p>День народження: {{ contact.birthday }}</p>
+        </span>
+            </div>
+
+
+            <div class="d-flex justify-content-start">
+                <div class="quote ms-3">
+                    <span class="text" itemprop="text">
+                        <p><strong>Ви впевнені, що хочете видалити цей контакт?</strong></p>
+                    </span>
+                </div>
+                <div class="col-md-3">
+                    <button style="margin-top: 0px; margin-left: 25px; width: 80%" type="submit"
+                            class="btn btn-crimson">Пiдтвердити
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <a style="margin-left: auto; margin-right: auto; width: 80%"
+                       href="{{ request.META.HTTP_REFERER|default:'{% url " address_book:contact_list" %}' }}"
+                    class="btn btn-secondary">Скасувати</a>
+
+                </div>
+            </div>
+
+        </form>
+
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <span {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>{{ message }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    {% endblock %}

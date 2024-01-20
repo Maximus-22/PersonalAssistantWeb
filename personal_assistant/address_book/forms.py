@@ -9,14 +9,12 @@ from django.utils.dateparse import parse_date
 from .models import AddressBook
 
 
-
-
 class AddressBookForm(forms.ModelForm):
     first_name = forms.CharField(min_length=3, max_length=32, widget=forms.TextInput(attrs={'style': 'width: 30%;'}))
     last_name = forms.CharField(min_length=3, max_length=32, widget=forms.TextInput(attrs={'style': 'width: 30%;'}))
     address = forms.CharField(min_length=5, max_length=255, widget=forms.TextInput(attrs={'style': 'width: 50%;'}))
     phone = forms.CharField(min_length=13, max_length=16, widget=forms.TextInput(attrs={'style': 'width: 30%;'}))
-    email = forms.EmailField(min_length=10, max_length=254,widget=forms.TextInput(attrs={'style': 'width: 30%;'}))
+    email = forms.EmailField(min_length=10, max_length=254, widget=forms.TextInput(attrs={'style': 'width: 30%;'}))
     birthday = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
@@ -26,8 +24,8 @@ class AddressBookForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddressBookForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].label = "Iм'я"
-        self.fields['last_name'].label = 'Призвище'
-        self.fields['address'].label = 'Адреса, починаючи з мiста'
+        self.fields['last_name'].label = 'Прізвище'
+        self.fields['address'].label = 'Адреса проживання'
         self.fields['phone'].label = 'Телефон'
         self.fields['email'].label = 'Електронна адреса'
         self.fields['birthday'].label = 'День народження'
@@ -36,17 +34,16 @@ class AddressBookForm(forms.ModelForm):
             if instance.birthday:
                 self.initial['birthday'] = instance.birthday.strftime('%Y-%m-%d')
 
-
     def clean_name(self):
         first_name = self.cleaned_data['first_name']
-        cleaned_first_name = r'^[A-Za-zА-Яа-я]+$'
+        cleaned_first_name = r'^[A-Za-zА-Яа-яІіЄєЇї]+$'
         if not re.match(cleaned_first_name, first_name):
             raise ValidationError("Ім'я має містити лише літери без пробілів.")
         return first_name
 
     def clean_last_name(self):
         last_name = self.cleaned_data['last_name']
-        cleaned_last_name = r'^[A-Za-zА-Яа-я]+$'
+        cleaned_last_name = r'^[A-Za-zА-Яа-яІіЄєЇї]+$'
         if not re.match(cleaned_last_name, last_name):
             raise ValidationError("Прізвище має містити лише літери без пробілів.")
         return last_name
