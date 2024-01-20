@@ -91,7 +91,7 @@ def contact_search(request):
         query = request.GET.get('query')
 
         if not query or len(query) < 3:
-            messages.error(request, 'Мінімальна довжина запиту - 3 символи.')
+            messages.error(request, 'Мінімальна довжина запиту при пошуку Контактiв - 3 символи.')
             return redirect(to='address_book:contact_list')
         
         if form.is_valid():
@@ -120,7 +120,11 @@ def upcoming_birthdays(request):
 
     if request.method == 'POST':
         form = BirthdayContactForm(request.POST)
-        shift_day = request.POST.get('shift_day')
+        shift_day = request.POST.get('shift_day', None)     
+
+        if shift_day is None or shift_day == '' or not shift_day.isdigit():
+            messages.error(request, 'Введене значення пошуку по Дням народження некоректне.')
+            return redirect(to='address_book:contact_list')
 
         if form.is_valid():
             today = date.today()
