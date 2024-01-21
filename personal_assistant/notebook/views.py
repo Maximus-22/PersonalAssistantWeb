@@ -29,13 +29,20 @@ def format_created_at(created_at):
 
 
 @login_required
-def notebook_list(request, page=1):
+def notebook_list(request):
     notebooks = Notebook.objects.all()
     search_form = SearchNoteForm(request.GET)
     elem_per_page = 5
-    paginator = Paginator(list(notebooks), elem_per_page)
-    notebooks_on_page = paginator.page(page)
-    # print(search_form)
+    paginator = Paginator(notebooks, elem_per_page)
+    page = request.GET.get('page', 1)
+
+    try:
+        notebooks_on_page = paginator.page(page)
+    except PageNotAnInteger:
+        notebooks_on_page = paginator.page(1)
+    except EmptyPage:
+        notebooks_on_page = paginator.page(paginator.num_pages)
+
     return render(request, "notebook/notebook_list.html",
                   context={"notebooks": notebooks_on_page, "search_form": search_form})
 
@@ -64,15 +71,16 @@ def search_notes(request):
     if request.method == 'GET':
         search_form = SearchNoteForm(request.GET)
         query = request.GET.get('query', '')
-        
+
         if not query or len(query) < 3:
             messages.error(request, 'Мінімальна довжина запиту - 3 символи.')
             return redirect(to='notebook:all_notes')
 
         if search_form.is_valid():
             results = Notebook.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            elem_per_page = 5
+            paginator = Paginator(results, elem_per_page)
             page = request.GET.get('page', 1)
-            paginator = Paginator(results, 5)
             try:
                 results_page = paginator.page(page)
             except PageNotAnInteger:

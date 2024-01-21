@@ -44,23 +44,23 @@
     {% endfor %}
 
 
-    <nav>
-        <div class="pagination" class="mb-3">
-             <span class="step-links" style="margin-left: 5%;">
-                {% if results.has_previous %}
-                    <a class="btn btn-secondary" href="?page={{ results.previous_page_number }}"> Попередня </a>
-                {% endif %}
+    <div class="pagination" style="width: 100%;">
+    <span class="step-links">
+        {% if results.has_previous %}
+        <!--            <a href="?page=1">&laquo; first</a>-->
+            <a href="?query={{ query }}&page={{ results.previous_page_number }}">←</a>
+        {% endif %}
 
-                <span class="current">
-                    <strong>Page {{ results.number }} from {{ results.paginator.num_pages }}.</strong>
-                </span>
+        <span class="current">
+            {{ results.number }}
+        </span>
 
-                {% if results.has_next %}
-                    <a class="btn btn-secondary" href="?page={{ results.next_page_number }}"> Наступна </a>
-                {% endif %}
-            </span>
-        </div>
-    </nav>
+        {% if results.has_next %}
+            <a href="?query={{ query }}&page={{ results.next_page_number }}">→</a>
+        <!--            <a href="?page={{ notebooks.paginator.num_pages }}">last &raquo;</a>-->
+        {% endif %}
+    </span>
+    </div>
     {% else %}
     <div class="container mt-3" style="color: #ADAFB4">
         <h2 style="width: 100%;">Не знайдено результатів для запиту "{{ query }}"</h2>
