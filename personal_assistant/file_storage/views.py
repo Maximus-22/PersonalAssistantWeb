@@ -6,6 +6,7 @@ from django.contrib import messages
 import boto3
 from botocore.exceptions import NoCredentialsError
 from django.shortcuts import redirect, get_object_or_404
+from django.db.models import Q
 
 
 @login_required
@@ -62,7 +63,9 @@ def all_files(request):
     search_query = request.GET.get('search', '')
 
     if search_query:
-        user_files = user_files.filter(title__icontains=search_query)
+        # user_files = user_files.filter(title__icontains=search_query)
+        user_files = user_files.filter(Q(title__icontains=search_query) |
+                                       Q(description__icontains=search_query))
 
     return render(request, "file_storage/all_files.html", {'files': user_files})
 
