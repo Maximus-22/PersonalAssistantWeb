@@ -17,16 +17,19 @@
     <form method="post" style="margin-top: 30px;">
         {% csrf_token %}
         <div class="mb-3">
-            <label class="form-label">Ім'я користувача
+            <label style="width: 40%;" class="form-label">Ім'я користувача
                 {{ form.username }}
             </label>
             <span>{{form.errors.username}}</span>
         </div>
         <div class="mb-3">
-            <label class="form-label">Пароль
+            <label style="width: 40%;" class="form-label">Пароль
                 {{ form.password }}
             </label>
             <span>{{form.errors.password}}</span>
+        </div>
+        <div class="mb-3">
+            <a class="nav-link" href="{% url 'accounts:password_reset' %}">Забули пароль?</a>
         </div>
         <div style="margin-bottom: 50px" class="d-flex justify-content-start" class="mb-3">
             <button type="submit" style="margin-top: 0px" class="btn btn-primary btn-crimson me-2">Зберегти</button>

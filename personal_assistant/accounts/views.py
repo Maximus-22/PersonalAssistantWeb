@@ -1,5 +1,8 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
 
@@ -57,3 +60,13 @@ class LogoutView(View):
         messages.success(request, "До побачення! Будемо раді Вас побачити знов!")
         return redirect(to="main")
 
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    try:
+        template_name = 'accounts/password_reset.html'
+        email_template_name = 'accounts/password_reset_email.html'
+        html_email_template_name = 'accounts/password_reset_email.html'
+        success_url = reverse_lazy('accounts:password_reset_done')
+        subject_template_name = 'accounts/password_reset_subject.txt'
+    except Exception as e:
+        print(f"Error sending email: {e}")

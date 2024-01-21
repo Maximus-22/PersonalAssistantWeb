@@ -1,7 +1,7 @@
 {% extends 'personal_assistant/base.html' %}
 {% load humanize %}
 {% block title %}
-Notebook
+Пошук нотаток
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@ Notebook
         {% comment %}
         <h2 class="author-title">Result Notes of Query: "{{ query }}"</h2>
         {% endcomment %}
-        <h2 style="width: 100%;">Знайденi Нотатки за запитом ' <b style="color:#6A92FB;">{{ query }}</b>'</h2>
+        <h2 style="width: 100%;">Знайденi нотатки за запитом " <b style="color:#6A92FB;">{{ query }}</b>"</h2>
     </div>
 
     <div class="d-flex justify-content-start" style="margin-bottom: 25px;">
@@ -23,7 +23,7 @@ Notebook
         <a href="{{ request.META.HTTP_REFERER|default:'{% url " notebook:all_notes_paginate" %}' }}
         class="btn btn-warning">Повернутися</a>>
         {% endcomment %}
-        <a href="{% url 'notebook:all_notes_paginate' page=1 %}"
+        <a href="{% url 'notebook:all_notes' %}"
            class="btn btn-warning">Повернутися</a>
     </div>
 
@@ -55,32 +55,27 @@ Notebook
     {% endfor %}
 
 
-    <nav class="mt-3">
-        <div class="pagination" class="mb-3">
-                    <span class="step-links" style="margin-left: 5%;">
-                        {% if notebooks_with_tag.has_previous %}
-                        <!-- <a href="?page=1">&laquo; First</a> -->
-                            <a class="btn btn-secondary" href="?page={{ notebooks_with_tag.previous_page_number }}">Попередня</a>
-                        {% endif %}
+<div class="pagination">
+    <span class="step-links">
+        {% if results.has_previous %}
+            <a href="?query={{ query }}&page={{ results.previous_page_number }}">←</a>
+        {% endif %}
 
-                        <span class="current" style="margin: 0 10px;">
-                            <strong>Сторiнка {{ notebooks_with_tag.number }} з {{ notebooks_with_tag.paginator.num_pages }}.</strong>
-                        </span>
+        <span class="current">
+            {{ results.number }}
+        </span>
 
-                        {% if notebooks_with_tag.has_next %}
-                            <a class="btn btn-secondary"
-                               href="?page={{ notebooks_with_tag.next_page_number }}">Наступна</a>
-                        <!-- <a href="?page={{ quotes_with_tag.paginator.num_pages }}">last &raquo;</a> -->
-                        {% endif %}
-                    </span>
-        </div>
-    </nav>
+        {% if results.has_next %}
+            <a href="?query={{ query }}&page={{ results.next_page_number }}">→</a>
+        {% endif %}
+    </span>
+</div>
     {% else %}
     <div class="container mt-3" style="color: #ADAFB4">
         {% comment %}
         <h2>No results found for <i>"{{ query }}"</i></h2>
         {% endcomment %}
-        <h2 style="width: 100%;">Не знайдено результатів для запиту <i>"{{ query }}"</i></h2>
+        <h2 style="width: 100%;">Не знайдено результатів для запиту "{{ query }}"</h2>
     </div>
     {% endif %}
 </div>

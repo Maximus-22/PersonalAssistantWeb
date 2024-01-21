@@ -1,4 +1,10 @@
 {% extends 'personal_assistant/base.html' %}
+
+{% block title %}
+Видалити нотатку
+{% endblock %}
+
+
 {% load humanize %}
 {% block content %}
 
@@ -8,7 +14,7 @@
         {{form.non_field_errors}}
     </div>
     {% endif %}
-    <h2 style="text-align: center;">Видалити Нотатку</h2>
+    <h2 style="text-align: center;">Видалити нотатку</h2>
 
 
     <div class="author-details">

@@ -1,7 +1,7 @@
 {% extends 'personal_assistant/base.html' %}
 {% load humanize %}
 {% block title %}
-Notebook
+Нотатник
 {% endblock %}
 
 {% block content %}
@@ -93,25 +93,23 @@ Notebook
     {% endfor %}
 
 
-    <nav>
-        <ul class="pager">
+<div class="pagination" >
+    <span class="step-links">
+        {% if notebooks.has_previous %}
+<!--            <a href="?page=1">&laquo; first</a>-->
+            <a href="?page={{ notebooks.previous_page_number }}">←</a>
+        {% endif %}
 
-            <li class="previous ms-5">
-                <a class="{% if not notebooks.has_previous %} disabled {% endif %}"
-                   href="{% if notebooks.has_previous %} {% url 'notebook:all_notes_paginate' notebooks.previous_page_number %} {% else %} # {% endif %}">
-                    <span aria-hidden="true">←</span> Попередня</a>
-            </li>
+        <span class="current">
+            {{ notebooks.number }}
+        </span>
 
-            <li class="next ms-5">
-                <a class="{% if not notebooks.has_next %} disabled {% endif %}"
-                   href="{% if notebooks.has_next %} {% url 'notebook:all_notes_paginate' notebooks.next_page_number %} {% else %} # {% endif %}">
-                    Наступна <span aria-hidden="true">→</span></a>
-            </li>
-
-        </ul>
-
-    </nav>
-
+        {% if notebooks.has_next %}
+            <a href="?page={{ notebooks.next_page_number }}">→</a>
+<!--            <a href="?page={{ notebooks.paginator.num_pages }}">last &raquo;</a>-->
+        {% endif %}
+    </span>
+</div>
 </div>
 
 {% endif %}

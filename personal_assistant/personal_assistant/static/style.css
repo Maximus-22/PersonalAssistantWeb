@@ -207,6 +207,7 @@ h2 {
     background-color: #ED9EC3;
     border-color: #ED9EC3;
 }
+
 .btn-info {
     width: 100%;
     background-color: #6A92FB;
@@ -298,17 +299,17 @@ h2 {
 }
 
 
- input[type="text"], textarea, select {
-        width: 100%; /* Make the input fields and textarea take up the full width */
-        padding: 10px; /* Add padding for spacing inside the input fields and textarea */
-        margin-bottom: 10px; /* Add margin below the input fields and textarea */
-        border: 1px solid #ddd; /* Add a border */
-        border-radius: 5px; /* Add rounded corners */
-    }
+input[type="text"], textarea, select {
+    width: 100%; /* Make the input fields and textarea take up the full width */
+    padding: 10px; /* Add padding for spacing inside the input fields and textarea */
+    margin-bottom: 10px; /* Add margin below the input fields and textarea */
+    border: 1px solid #ddd; /* Add a border */
+    border-radius: 5px; /* Add rounded corners */
+}
 
-    .d-flex {
-        justify-content: center; /* Center the buttons horizontally */
-    }
+.d-flex {
+    justify-content: center; /* Center the buttons horizontally */
+}
 
 .pomodoro-btn {
     margin-top: 30px;
@@ -324,7 +325,7 @@ h2 {
 .pomodoro-btn-start {
     margin-top: 30px;
     background-color: #6A92FB;
-    background-color: #6A92FB;
+    border-color: #6A92FB;
     padding: 15px;
     color: white;
     font-size: 26px;
@@ -332,14 +333,69 @@ h2 {
     font-weight: bold;
 }
 
-.pomodoro-btn:hover, .pomodoro-btn-start:hover {
+.pomodoro-btn:hover {
     background-color: #ED9EC3;
     border-color: #ED9EC3;
+    color: black;
+}
+
+
+.pomodoro-btn-start:hover {
+    background-color: #A6BBF0;
+    border-color: #A6BBF0;
+    color: black;
 }
 
 .timer {
     font-size: 4em;
     margin-top: 30px;
     margin-bottom: 30px;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.step-links {
+    display: flex;
+    align-items: center;
+}
+
+.step-links a {
+    padding: 8px 12px;
+    margin: 0 4px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f8f8f8;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.current {
+    padding: 8px 12px;
+    margin: 0 4px;
+    color: #fff;
+    background-color: #6A92FB;
+    border-color: #6A92FB;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.step-links a:hover {
+    background-color: #ddd;
+}
+
+.step-links a:disabled {
+    cursor: not-allowed;
+    color: #999;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
 }
 
