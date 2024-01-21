@@ -352,3 +352,50 @@ input[type="text"], textarea, select {
     margin-bottom: 30px;
 }
 
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.step-links {
+    display: flex;
+    align-items: center;
+}
+
+.step-links a {
+    padding: 8px 12px;
+    margin: 0 4px;
+    text-decoration: none;
+    color: #333;
+    background-color: #f8f8f8;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.current {
+    padding: 8px 12px;
+    margin: 0 4px;
+    color: #fff;
+    background-color: #6A92FB;
+    border-color: #6A92FB;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.step-links a:hover {
+    background-color: #ddd;
+}
+
+.step-links a:disabled {
+    cursor: not-allowed;
+    color: #999;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+}
+

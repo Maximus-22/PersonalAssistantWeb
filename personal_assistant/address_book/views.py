@@ -11,19 +11,26 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-
 @login_required
 def contact_list(request, page=1):
     if request.method == 'GET':
         contacts = AddressBook.objects.all()
         search_form = SearchContactForm(request.GET)
         birthday_form = BirthdayContactForm(request.POST)
+
         elem_per_page = 5
-        paginator = Paginator(list(contacts), elem_per_page)
-        contacts_on_page = paginator.page(page)
+        paginator = Paginator(contacts, elem_per_page)
+        page = request.GET.get('page', 1)
+
+        try:
+            contacts_on_page = paginator.page(page)
+        except PageNotAnInteger:
+            contacts_on_page = paginator.page(1)
+        except EmptyPage:
+            contacts_on_page = paginator.page(paginator.num_pages)
         return render(request, 'address_book/contact_list.html',
-                    context={'contacts': contacts_on_page, 'search_form': search_form,
-                            'birthday_form': birthday_form})
+                      context={'contacts': contacts_on_page, 'search_form': search_form,
+                               'birthday_form': birthday_form})
 
 
 @login_required
@@ -93,14 +100,14 @@ def contact_search(request):
         if not query or len(query) < 3:
             messages.error(request, 'Мінімальна довжина запиту при пошуку Контактiв - 3 символи.')
             return redirect(to='address_book:contact_list')
-        
+
         if form.is_valid():
             results = AddressBook.objects.filter(Q(first_name__icontains=query) |
                                                  Q(last_name__icontains=query) |
                                                  Q(address__icontains=query) |
                                                  Q(phone__icontains=query) |
                                                  Q(email__icontains=query))
-            
+
             page = request.GET.get('page', 1)
             paginator = Paginator(results, 5)
             try:
@@ -117,10 +124,9 @@ def contact_search(request):
 
 @login_required
 def upcoming_birthdays(request):
-
     if request.method == 'POST':
         form = BirthdayContactForm(request.POST)
-        shift_day = request.POST.get('shift_day', None)     
+        shift_day = request.POST.get('shift_day', None)
 
         if shift_day is None or shift_day == '' or not shift_day.isdigit():
             messages.error(request, 'Введене значення пошуку по Дням народження некоректне.')
@@ -131,12 +137,12 @@ def upcoming_birthdays(request):
             end_date = today + timedelta(days=int(shift_day))
 
             if end_date.year == today.year:
-                
+
                 if end_date.month == today.month:
                     upcoming_birthdays_contacts = AddressBook.objects.filter(
                         Q(birthday__month=today.month, birthday__day__gte=today.day) &
                         Q(birthday__month=end_date.month, birthday__day__lte=end_date.day))
-                
+
                 else:
                     upcoming_birthdays_contacts = AddressBook.objects.filter(
                         Q(birthday__month=today.month, birthday__day__gte=today.day) |

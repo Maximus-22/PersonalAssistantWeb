@@ -110,21 +110,23 @@
     {% endfor %}
 
 
-    <nav>
-        <ul class="pager">
-            <li class="previous ms-5" style="float: left;">
-                <a class="{% if not contact_paginate.has_previous %} disabled {% endif %}"
-                   href="{% if contact_paginate.has_previous %} {% url 'address_book:contact_paginate' contact_paginate.previous_page_number %} {% else %} # {% endif %}">
-                    <span class="btn btn-secondary" aria-hidden="true">←</span> Попередня </a>
-            </li>
+    <div class="pagination" style="width: 100%;">
+    <span class="step-links">
+        {% if contacts.has_previous %}
+        <!--            <a href="?page=1">&laquo; first</a>-->
+            <a href="?page={{ contacts.previous_page_number }}">←</a>
+        {% endif %}
 
-            <li class="next" class="btn btn-secondary">
-                <a class="{% if not contact_paginate.has_next %} disabled {% endif %}"
-                   href="{% if contact_paginate.has_next %} {% url 'address_book:contact_paginate' contact_paginate.next_page_number %} {% else %} # {% endif %}">
-                    Наступна <span class="btn btn-secondary" aria-hidden="true">→</span></a>
-            </li>
-        </ul>
-    </nav>
+        <span class="current">
+            {{ contacts.number }}
+        </span>
+
+        {% if contacts.has_next %}
+            <a href="?page={{ contacts.next_page_number }}">→</a>
+        <!--            <a href="?page={{ notebooks.paginator.num_pages }}">last &raquo;</a>-->
+        {% endif %}
+    </span>
+    </div>
 </div>
 
 
